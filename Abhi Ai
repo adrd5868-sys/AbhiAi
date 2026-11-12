@@ -1,0 +1,2780 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#080b16" id="metaThemeColor">
+<title>ABHI AI TITANIUM × Taqviro VYROX Ultimate Edition Pro v10.0</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+:root {
+  --bg-grad: linear-gradient(135deg, #d9f0ef, #e9f5f6, #d9e6ff);
+  --sidebar-bg: rgba(255, 255, 255, 0.94);
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --item-bg: rgba(255, 255, 255, 0.88);
+  --field-bg: rgba(255, 255, 255, 0.85);
+  --text: #07152c;
+  --muted: #64748b;
+  --accent: #20b7c5;
+  --accent2: #087d8d;
+  --danger: #ef4444;
+  --border: rgba(0, 0, 0, 0.08);
+  --card-border: rgba(255, 255, 255, 0.98);
+  --shadow: 0 12px 35px #7daeb522;
+  --hero-bg: linear-gradient(155deg, #07162c 0%, #095264 60%, #108493 100%);
+  --btn-bg: linear-gradient(135deg, #20b7c5, #087d8d);
+  --btn-sec-bg: #e6f7f5;
+  --btn-sec-text: #087d8d;
+  --chat-panel-bg: rgba(255, 255, 255, 0.98);
+  --chat-header-bg: rgba(255, 255, 255, 0.82);
+  --ai-msg-text: #17202d;
+  --input-bar-bg: rgba(239, 250, 249, 0.96);
+  --bottom-nav-bg: rgba(255, 255, 255, 0.96);
+  --stage-bg: #f8fafc;
+  --radius: 24px;
+}
+
+body.dark-mode {
+  --bg-grad: radial-gradient(circle at 80% 0%, #1b1640 0, transparent 35%), #080b16;
+  --sidebar-bg: rgba(9, 13, 27, 0.96);
+  --card-bg: linear-gradient(145deg, rgba(22, 31, 52, 0.96), rgba(13, 19, 35, 0.96));
+  --item-bg: #0b1222;
+  --field-bg: #090f20;
+  --text: #eef3ff;
+  --muted: #8d9ab5;
+  --accent: #8b5cf6;
+  --accent2: #22d3ee;
+  --danger: #ef4444;
+  --border: rgba(255, 255, 255, 0.09);
+  --card-border: rgba(255, 255, 255, 0.09);
+  --shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+  --hero-bg: linear-gradient(135deg, #1b1442, #0d2b45);
+  --btn-bg: linear-gradient(100deg, #8b5cf6, #526cf5);
+  --btn-sec-bg: #26324b;
+  --btn-sec-text: #eef3ff;
+  --chat-panel-bg: #0d1323;
+  --chat-header-bg: rgba(17, 23, 41, 0.92);
+  --ai-msg-text: #eef3ff;
+  --input-bar-bg: rgba(45, 52, 70, 0.95);
+  --bottom-nav-bg: rgba(11, 16, 32, 0.96);
+  --stage-bg: #070d1b;
+}
+
+body {
+  font-family: 'Nunito', 'Inter', system-ui, Arial, sans-serif;
+  background: var(--bg-grad);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+button:active { transform: scale(0.96); }
+
+.app { display: flex; min-height: 100vh; width: 100%; overflow-x: hidden; }
+
+/* TOAST SYSTEM */
+.toast-container {
+  position: fixed; bottom: 25px; right: 25px; z-index: 999999;
+  display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+}
+.toast {
+  background: var(--card-bg); color: var(--text); border: 1px solid var(--accent);
+  padding: 12px 20px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  font-weight: 700; font-size: 14px; animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(10px); pointer-events: auto;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+/* SIDEBAR */
+.sidebar {
+  width: 250px; background: var(--sidebar-bg); border-right: 1px solid var(--border);
+  padding: 22px 15px; position: fixed; inset: 0 auto 0 0; overflow: auto; z-index: 20; backdrop-filter: blur(20px);
+}
+.brand-side { font-size: 21px; font-weight: 900; letter-spacing: 1px; padding: 8px 10px 20px; color: var(--text); }
+.brand-side span { color: var(--accent2); }
+.nav-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; padding: 15px 12px 7px; text-transform: uppercase; font-weight: 800; }
+.nav button {
+  display: flex; align-items: center; gap: 12px; width: 100%; border: 0; background: transparent;
+  color: var(--muted); text-align: left; padding: 12px; border-radius: 14px; margin: 3px 0; font-weight: 700;
+}
+.nav button:hover, .nav button.active {
+  background: linear-gradient(100deg, rgba(32, 183, 197, 0.2), rgba(139, 92, 246, 0.12));
+  color: var(--text);
+}
+
+/* MAIN CONTAINER & TOPBAR */
+.main { margin-left: 250px; width: calc(100% - 250px); padding: 22px; max-width: 1600px; }
+.main.ai-mode { padding: 10px 14px; }
+.topbar { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 18px; }
+.topbar h1 { font-size: 28px; margin: 0; font-weight: 900; letter-spacing: -0.5px; line-height: 1.1; }
+.topbar p { margin: 5px 0 0; color: var(--text); font-size: 13px; font-weight: 700; opacity: 0.85; }
+.topbar-right { display: flex; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+
+.topbar-btn-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.status {
+  font-size: 11px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 30px;
+  color: var(--accent2); background: rgba(34, 211, 238, 0.12); font-weight: 700;
+}
+.theme-btn {
+  border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+  padding: 7px 14px; border-radius: 20px; font-size: 12px; font-weight: 800; box-shadow: var(--shadow);
+  display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+  min-width: 88px;
+}
+.theme-btn.home-pill-btn {
+  background: linear-gradient(135deg, #20b7c5, #087d8d);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+/* GRID & CARDS */
+.page { display: none; }
+.page.active { display: block; animation: fade 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+@keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+.grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+.card {
+  background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow); backdrop-filter: blur(12px);
+}
+.card h3 { margin: 0 0 12px; font-size: 17px; font-weight: 800; }
+
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+}
+.clickable-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 14px 30px rgba(32, 183, 197, 0.22);
+}
+.clickable-card:active { transform: scale(0.96); }
+
+.stat { grid-column: span 3; padding: 18px; }
+.stat strong { display: block; font-size: 32px; margin: 6px 0 4px; font-weight: 900; line-height: 1.1; }
+.stat small, .muted { color: var(--muted); font-weight: 700; font-size: 12.5px; }
+.wide { grid-column: span 8; }
+.side { grid-column: span 4; }
+.half { grid-column: span 6; }
+.full { grid-column: 1 / -1; }
+
+.hero {
+  grid-column: 1 / -1; padding: 26px 22px; background: var(--hero-bg);
+  position: relative; overflow: hidden; border-radius: 26px; color: white;
+}
+.hero h2 { font-size: clamp(24px, 4.5vw, 36px); margin: 0 0 20px; color: white; font-weight: 900; line-height: 1.2; }
+
+.hero-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.hero-action-btn {
+  border: 0;
+  border-radius: 16px;
+  padding: 14px 12px;
+  background: linear-gradient(135deg, #1eaeb9, #1597a3);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 15.5px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  line-height: 1.25;
+}
+.hero-action-btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.hero-action-btn.primary-full {
+  grid-column: 1 / -1;
+  font-size: 21px;
+  padding: 15px 20px;
+  gap: 10px;
+}
+.hero-action-btn.vidyatadka-btn {
+  background: linear-gradient(135deg, #1eaeb9, #0e8b98);
+  color: #ffffff;
+  font-weight: 800;
+}
+
+.streak-card { grid-column: 1 / -1; padding: 20px 22px; }
+.streak-label { font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: 2.5px; text-transform: uppercase; }
+.streak-value-row { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+.streak-value-row strong { font-size: 32px; font-weight: 900; letter-spacing: 2px; color: var(--text); }
+.streak-sub { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 1px; }
+
+.quote-actions-row { margin-top: 14px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.quote-pill-btn {
+  border: 1px solid rgba(32, 183, 197, 0.25);
+  background: var(--btn-sec-bg);
+  color: var(--btn-sec-text);
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 12.5px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.quote-pill-btn.lang-btn { background: var(--item-bg); color: var(--text); border: 1px solid var(--accent); }
+.quote-pill-btn.preview-btn {
+  background: linear-gradient(135deg, #20b7c5, #087d8d);
+  color: #ffffff;
+  border: 0;
+  box-shadow: 0 4px 12px rgba(32, 183, 197, 0.25);
+}
+
+.lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.lang-opt-btn {
+  padding: 11px 12px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border);
+  background: var(--item-bg);
+  color: var(--text);
+  font-weight: 800;
+  font-size: 13px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.lang-opt-btn:hover { border-color: var(--accent); }
+.lang-opt-btn.selected {
+  background: linear-gradient(135deg, rgba(32, 183, 197, 0.18), rgba(8, 125, 141, 0.1));
+  border-color: var(--accent);
+  color: var(--accent2);
+}
+
+.btn {
+  border: 0; border-radius: 14px; padding: 11px 18px; background: var(--btn-bg);
+  color: white; font-weight: 700; box-shadow: 0 5px 15px rgba(32, 183, 197, 0.25);
+}
+.btn.secondary { background: var(--btn-sec-bg); border: 1px solid var(--border); color: var(--btn-sec-text); box-shadow: none; }
+.btn.danger { background: #ef4444; color: white; }
+.btn.small { padding: 7px 13px; font-size: 12px; }
+.btn:hover { transform: translateY(-2px); }
+
+.field {
+  width: 100%; padding: 13px 15px; border-radius: 15px; border: 1px solid var(--border);
+  background: var(--field-bg); color: var(--text); outline: none; margin: 6px 0; transition: all 0.25s; font-weight: 600;
+}
+.field:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(32, 183, 197, 0.15); }
+textarea.field { min-height: 100px; resize: vertical; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.row > * { flex: 1; }
+.actions-btn { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+.item {
+  background: var(--item-bg); border: 1px solid var(--border); padding: 16px;
+  border-radius: 16px; margin: 10px 0; transition: transform 0.2s;
+}
+.item:hover { transform: translateY(-2px); border-color: var(--accent); }
+.item strong { display: block; font-size: 16px; margin-bottom: 4px; }
+.item small { color: var(--muted); }
+.item button { margin: 6px 5px 0 0; }
+.task-done { text-decoration: line-through; opacity: 0.55; }
+
+.flash {
+  min-height: 130px; display: grid; place-items: center; text-align: center;
+  background: var(--item-bg); border: 1px dashed var(--accent); border-radius: 18px;
+  padding: 20px; font-weight: 800; font-size: 17px; margin-bottom: 10px;
+}
+
+/* FOCUS TIMER & PROGRESS */
+.timer {
+  font-size: 54px; font-weight: 900; text-align: center; margin: 18px 0;
+  color: var(--accent2); letter-spacing: 2px; font-variant-numeric: tabular-nums;
+}
+.progress {
+  width: 100%; height: 12px; background: var(--item-bg); border-radius: 20px;
+  overflow: hidden; margin-top: 12px; border: 1px solid var(--border);
+}
+.progress span {
+  display: block; height: 100%; width: 0%; background: var(--btn-bg);
+  transition: width 0.4s ease; border-radius: 20px;
+}
+
+/* ANIMATION STUDIO STAGE */
+.stage {
+  width: 100%; height: 340px; background: var(--stage-bg); border: 2px dashed var(--border);
+  border-radius: 20px; margin-top: 16px; position: relative; overflow: hidden;
+}
+.canvas-object {
+  position: absolute; cursor: grab; user-select: none; font-weight: 900;
+  transition: transform 0.15s ease;
+}
+.canvas-object.effect-float { animation: floatObj 3s ease-in-out infinite; }
+.canvas-object.effect-pulse { animation: pulseObj 1.8s ease-in-out infinite; }
+.canvas-object.effect-spin { animation: spinAnim 4s linear infinite; }
+@keyframes floatObj { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes pulseObj { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.22); } }
+
+.vidya-banner {
+  background: linear-gradient(120deg, #07162c, #087d8d);
+  color: white;
+  border-radius: 22px;
+  padding: 22px;
+  margin-bottom: 14px;
+}
+.vidya-banner h2 { font-size: 24px; font-weight: 900; margin-bottom: 6px; }
+.vidya-banner p { font-size: 14px; opacity: 0.9; line-height: 1.45; }
+.vidya-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(32, 183, 197, 0.18);
+  color: var(--accent2);
+  margin-bottom: 6px;
+}
+
+.heatmap-grid {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin-top: 15px;
+}
+.heatmap-cell {
+  aspect-ratio: 1; border-radius: 8px; background: rgba(100, 116, 139, 0.15);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: var(--muted);
+  border: 1px solid var(--border); transition: transform 0.2s;
+}
+.heatmap-cell:hover { transform: scale(1.08); }
+.heatmap-cell.level-1 { background: rgba(32, 183, 197, 0.3); color: var(--text); }
+.heatmap-cell.level-2 { background: rgba(32, 183, 197, 0.6); color: white; }
+.heatmap-cell.level-3 { background: #20b7c5; color: white; }
+
+.analytics-bar-container {
+  display: flex; align-items: flex-end; gap: 12px; height: 180px; padding: 15px 0 5px; border-bottom: 2px solid var(--border);
+}
+.analytics-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; gap: 6px; }
+.analytics-bar { width: 100%; max-width: 36px; background: linear-gradient(180deg, var(--accent), var(--accent2)); border-radius: 8px 8px 0 0; transition: height 0.5s ease; }
+.analytics-bar-label { font-size: 11px; font-weight: 800; color: var(--muted); }
+
+.voice-studio-box {
+  display: flex; flex-direction: column; align-items: center; text-align: center; padding: 25px; gap: 20px;
+}
+.mic-ring {
+  width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: grid; place-items: center; font-size: 44px; color: white; box-shadow: 0 10px 30px rgba(32, 183, 197, 0.4);
+  cursor: pointer; transition: transform 0.2s; animation: pulseGlow 2s infinite;
+}
+.mic-ring:hover { transform: scale(1.08); }
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 0 0 rgba(32, 183, 197, 0.5); }
+  70% { box-shadow: 0 0 0 20px rgba(32, 183, 197, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(32, 183, 197, 0); }
+}
+
+.quiz-option {
+  display: block; width: 100%; padding: 14px 18px; margin: 8px 0; border-radius: 14px;
+  background: var(--item-bg); border: 1px solid var(--border); text-align: left; font-weight: 700; color: var(--text);
+  cursor: pointer; transition: all 0.2s;
+}
+.quiz-option:hover { border-color: var(--accent); background: rgba(32, 183, 197, 0.08); }
+.quiz-option.selected { background: var(--accent); color: white; border-color: var(--accent); }
+.quiz-option.correct { background: #10b981; color: white; border-color: #10b981; }
+.quiz-option.incorrect { background: #ef4444; color: white; border-color: #ef4444; }
+
+.pdf-reader-modal {
+  position: fixed; inset: 0; background: rgba(7, 11, 22, 0.85); backdrop-filter: blur(12px); z-index: 99999;
+  display: flex; flex-direction: column; padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.25s ease;
+}
+.pdf-reader-modal.active { opacity: 1; pointer-events: all; }
+.pdf-modal-header {
+  display: flex; justify-content: space-between; align-items: center; background: var(--card-bg);
+  padding: 12px 20px; border-radius: 18px 18px 0 0; border: 1px solid var(--border);
+}
+.pdf-modal-body {
+  flex: 1; background: #1e293b; border-radius: 0 0 18px 18px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; overflow: auto; padding: 20px; position: relative;
+}
+.pdf-canvas-container { max-width: 100%; max-height: 100%; overflow: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border-radius: 8px; }
+
+@keyframes spinAnim { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+#ai.active { display: flex; flex-direction: column; height: calc(100vh - 20px); width: 100%; }
+
+.header-ai {
+  padding: 12px 16px 0; border-radius: 24px; background: var(--chat-header-bg);
+  border: 1px solid var(--card-border); box-shadow: var(--shadow); backdrop-filter: blur(20px); overflow: hidden; flex-shrink: 0;
+}
+.header-top-flex { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.header-left-info { min-width: 0; flex: 1; }
+.tagline { font-size: 20px; font-weight: 700; color: #20b7c5; font-family: 'Caveat', cursive; line-height: 1.05; }
+.heading {
+  font-size: clamp(16px, 4.2vw, 30px); font-weight: 900; letter-spacing: -0.5px; line-height: 1.15;
+  color: var(--text); text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;
+}
+.date-ai { font-size: 13px; color: var(--muted); margin-top: 2px; font-weight: 700; }
+
+.header-right-stack { display: flex; flex-direction: column; align-items: stretch; justify-content: center; gap: 4px; flex-shrink: 0; }
+.theme-btn-mini {
+  border: 1px solid var(--border); background: var(--card-bg); color: var(--text);
+  padding: 3px 8px; border-radius: 14px; font-size: 10px; font-weight: 800; box-shadow: var(--shadow); display: inline-flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap;
+}
+.theme-btn-mini.home-mini {
+  background: linear-gradient(135deg, #20b7c5, #087d8d);
+  color: #ffffff;
+  border-color: transparent;
+}
+.settings-layers-btn { background: transparent; border: 0; padding: 0; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.layers-icon { width: 32px; height: 32px; flex-shrink: 0; filter: drop-shadow(0 3px 8px rgba(32, 183, 197, 0.35)); transition: transform 0.3s ease; }
+.settings-layers-btn:hover .layers-icon { transform: translateY(-2px) scale(1.08); }
+
+.brand-bar {
+  margin: 8px -16px 0; padding: 9px 18px; background: linear-gradient(110deg, #07162c, #087d8d);
+  color: white; display: flex; justify-content: space-between; align-items: center; border-radius: 20px 20px 0 0;
+}
+.brand-title { font-size: 20px; font-weight: 800; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 8px; }
+
+.version-pill {
+  background: #20b9c6; color: white; padding: 4px 12px; border-radius: 30px; font-size: 11px; font-weight: 900;
+  letter-spacing: 0.5px; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 3px 10px rgba(32, 185, 198, 0.4); transition: all 0.2s ease;
+}
+.version-pill:hover { transform: scale(1.05); background: #17a2b0; }
+
+.vyrox-modal-overlay {
+  position: fixed; inset: 0; background: rgba(7, 11, 22, 0.78); backdrop-filter: blur(10px); z-index: 99999;
+  display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.25s ease; padding: 15px;
+}
+.vyrox-modal-overlay.active { opacity: 1; pointer-events: all; }
+.vyrox-modal-card {
+  background: var(--chat-panel-bg); border: 1px solid var(--card-border); border-radius: 28px;
+  width: 100%; max-width: 440px; padding: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.4); transform: scale(0.92); transition: transform 0.25s ease;
+}
+.vyrox-modal-overlay.active .vyrox-modal-card { transform: scale(1); }
+.vyrox-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.vyrox-modal-header h3 { font-size: 20px; font-weight: 900; color: var(--text); }
+.vyrox-close-btn {
+  background: var(--item-bg); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px;
+  border-radius: 50%; font-size: 16px; font-weight: bold; display: grid; place-items: center; cursor: pointer;
+}
+.vyrox-options-list { display: flex; flex-direction: column; gap: 12px; }
+.vyrox-option-item {
+  display: flex; align-items: center; justify-content: space-between; padding: 16px; border-radius: 18px;
+  background: var(--item-bg); border: 2px solid var(--border); cursor: pointer; transition: all 0.2s ease;
+}
+.vyrox-option-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.vyrox-option-item.selected {
+  background: linear-gradient(135deg, rgba(32, 183, 197, 0.15), rgba(8, 125, 141, 0.08)); border-color: var(--accent);
+}
+.vyrox-opt-left { display: flex; align-items: center; gap: 14px; }
+.vyrox-opt-icon { font-size: 28px; }
+.vyrox-opt-info strong { display: block; font-size: 16px; color: var(--text); font-weight: 800; }
+.vyrox-opt-info small { color: var(--muted); font-size: 12px; font-weight: 600; }
+.vyrox-check { font-size: 18px; color: var(--accent); font-weight: 900; display: none; }
+.vyrox-option-item.selected .vyrox-check { display: block; }
+
+.clear-btn {
+  background: #e6f7f5; color: #087d8d; border: 0; border-radius: 30px; padding: 6px 13px; font-size: 12px; font-weight: 800; display: flex; align-items: center; gap: 5px;
+}
+
+.ai-mode-panel { display: none; flex-direction: column; flex: 1; min-height: 0; }
+.ai-mode-panel.active { display: flex; }
+
+.chat-panel {
+  margin-top: 8px; background: var(--chat-panel-bg); border-radius: 24px; padding: 14px;
+  display: flex; flex-direction: column; flex: 1; min-height: 0; box-shadow: var(--shadow); overflow: hidden; position: relative;
+}
+
+.messages { flex: 1; overflow-y: auto; padding: 8px 6px 16px; scroll-behavior: smooth; display: flex; flex-direction: column; gap: 18px; }
+
+.msg-row { display: flex; flex-direction: column; animation: fade 0.25s ease; width: 100%; }
+.msg-row.ai { align-self: flex-start; }
+.msg-row.ai .msg-content { display: flex; gap: 10px; width: 100%; }
+.msg-row.ai .cyan-dot {
+  width: 12px; height: 12px; background: linear-gradient(135deg, #24c5cb, #71d9d0);
+  border-radius: 50%; margin-top: 6px; flex-shrink: 0; box-shadow: 0 0 8px rgba(36, 197, 203, 0.6);
+}
+.msg-row.ai .text-wrapper { flex: 1; min-width: 0; }
+.msg-row.ai .text { color: var(--ai-msg-text); font-size: 16px; font-weight: 600; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+.msg-row.ai .msg-actions {
+  display: flex; gap: 15px; border-top: 1.5px solid #20b7c5; padding-top: 6px; margin-top: 8px; color: #64748b; font-size: 16px; width: fit-content;
+}
+.msg-row.ai .msg-actions span { cursor: pointer; transition: 0.2s; }
+.msg-row.ai .msg-actions span:hover { color: #20b7c5; transform: scale(1.12); }
+
+.msg-row.user { align-self: flex-end; position: relative; max-width: 85%; margin-right: 10px; margin-bottom: 12px; }
+.msg-row.user .bubble {
+  background: linear-gradient(135deg, #21b7c7, #159baa); color: white; padding: 10px 20px; border-radius: 26px;
+  font-size: 20px; font-family: 'Caveat', cursive, sans-serif; font-weight: 700; box-shadow: 0 6px 16px rgba(33, 183, 199, 0.28); overflow-wrap: anywhere;
+}
+.msg-row.system { align-self: center; background: #f1f5f9; color: #475569; padding: 5px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; }
+
+.suggestions-row { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 8px; flex-shrink: 0; }
+.suggestion-chip {
+  background: linear-gradient(135deg, #20b7c7, #087d8d); color: white; border: 0; border-radius: 30px;
+  font-size: 16px; font-family: 'Caveat', cursive; padding: 5px 15px; white-space: nowrap; box-shadow: 0 4px 10px rgba(32, 183, 199, 0.22);
+}
+
+.input-area {
+  display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 40px;
+  background: var(--input-bar-bg); box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1); border: 1.5px solid rgba(255, 255, 255, 0.5); flex-shrink: 0;
+}
+.circle-btn {
+  width: 40px; height: 40px; flex-shrink: 0; border: 0; border-radius: 50%;
+  background: linear-gradient(135deg, #27c2c9, #079eae); color: white; font-size: 19px; display: flex; align-items: center; justify-content: center; box-shadow: 0 3px 10px rgba(39, 194, 201, 0.3);
+}
+.input-area input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; font-size: 16px; color: var(--text); font-weight: 700; padding: 0 6px; }
+.input-area input::placeholder { color: #94a3b8; font-weight: 600; }
+.mic-btn { font-size: 20px; background: none; border: 0; cursor: pointer; padding: 4px 6px; transition: transform 0.2s; }
+.mic-btn.listening { animation: pulseMic 1s infinite; }
+@keyframes pulseMic { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.25); } }
+
+.image-gen-box { display: flex; flex-direction: column; gap: 12px; flex: 1; overflow-y: auto; padding: 10px; }
+.image-preview-container {
+  flex: 1; background: var(--stage-bg); border: 2px dashed var(--muted); border-radius: 20px;
+  display: flex; align-items: center; justify-content: center; min-height: 250px; position: relative; overflow: hidden; text-align: center; padding: 15px;
+}
+.image-preview-container img { max-width: 100%; max-height: 350px; border-radius: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+.coding-box { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; padding: 5px; }
+.code-editor-area { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; flex: 1; min-height: 320px; }
+@media (max-width: 900px) { .code-editor-area { grid-template-columns: 1fr; } }
+.code-pane { display: flex; flex-direction: column; gap: 6px; }
+.code-pane label { font-size: 13px; font-weight: 800; color: var(--muted); }
+.code-textarea {
+  flex: 1; background: #090f20; color: #22d3ee; font-family: monospace; font-size: 14px;
+  padding: 12px; border-radius: 14px; border: 1px solid var(--border); resize: none; outline: none; line-height: 1.5;
+}
+.preview-iframe { width: 100%; height: 100%; background: #ffffff; border-radius: 14px; border: 1px solid var(--border); }
+
+.voice-overlay {
+  position: fixed; inset: 0; background: rgba(8, 11, 22, 0.92); backdrop-filter: blur(14px); z-index: 9999;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px;
+}
+.voice-overlay.active { opacity: 1; pointer-events: all; }
+.ai-container { position: relative; width: 160px; height: 160px; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+.wave {
+  position: absolute; width: 100%; height: 100%; background: linear-gradient(45deg, #22d3ee, #4facfe, #8b5cf6);
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; animation: morph 4s ease-in-out infinite, spinAnim 8s linear infinite; opacity: 0.65; box-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+}
+.wave:nth-child(2) { animation-direction: reverse; animation-duration: 10s; background: linear-gradient(45deg, #20b7c5, #ffb199, #8b5cf6); opacity: 0.5; }
+.core {
+  position: absolute; width: 72px; height: 72px; background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(10px);
+  border-radius: 50%; z-index: 10; border: 1px solid rgba(255, 255, 255, 0.3); display: flex; justify-content: center; align-items: center; font-size: 32px;
+}
+@keyframes morph {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  34% { border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%; }
+  67% { border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%; }
+}
+
+.bottom-nav {
+  display: none; position: fixed; bottom: 0; left: 0; width: 100%; justify-content: space-around; align-items: center;
+  padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); background: var(--bottom-nav-bg); border-radius: 24px 24px 0 0;
+  backdrop-filter: blur(20px); box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.12); z-index: 100; border-top: 1px solid var(--border);
+}
+.nav-item {
+  border: 0; background: none; color: var(--muted); display: flex; flex-direction: column; align-items: center;
+  gap: 2px; font-size: 11px; font-weight: 800; padding: 6px 10px; cursor: pointer; flex: 1; transition: 0.25s;
+}
+.nav-item span:first-child { font-size: 20px; }
+.nav-item.active {
+  background: linear-gradient(135deg, #22c5c9, #078ca9); color: white; border-radius: 18px; transform: translateY(-3px); box-shadow: 0 6px 16px rgba(7, 140, 169, 0.35);
+}
+
+footer { color: var(--muted); font-size: 12px; text-align: center; padding: 24px 0 10px; font-weight: 700; }
+
+@media (max-width: 900px) {
+  .sidebar { width: 80px; padding: 15px 8px; }
+  .brand-side { font-size: 0; text-align: center; padding: 12px 0 20px; }
+  .brand-side:after { content: "AT"; font-size: 22px; color: var(--accent2); }
+  .nav-label { display: none; }
+  .nav button { justify-content: center; font-size: 0; padding: 14px; }
+  .nav button span { font-size: 22px; }
+  .main { margin-left: 80px; width: calc(100% - 80px); padding: 14px; }
+  .stat { grid-column: span 6; }
+  .wide, .side, .half { grid-column: 1 / -1; }
+}
+
+@media (max-width: 600px) {
+  body { padding-bottom: 74px; }
+  .sidebar { display: none; }
+  .bottom-nav { display: flex; }
+  .main { margin: 0; width: 100%; padding: 14px; }
+  .main.ai-mode { padding: 6px; }
+  .topbar h1 { font-size: 26px; }
+  .topbar p { font-size: 12px; }
+  .status { display: none; }
+  .stat { grid-column: span 6; }
+  .hero { padding: 24px 18px; }
+  #ai.active { height: calc(100vh - 74px); }
+  .header-ai { padding: 10px 12px 0; border-radius: 20px; }
+  .layers-icon { width: 32px; height: 32px; }
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 10px; }
+</style>
+<!-- PDF.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+  if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+</script>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="brand-side">ABHI AI <span>TITANIUM</span></div>
+  <div class="nav">
+    <div class="nav-label">WORKSPACE</div>
+    <button class="active" data-page="dashboard" onclick="go('dashboard')"><span>⌂</span> Dashboard</button>
+    <button data-page="ai" onclick="go('ai')"><span>✧</span> Taqviro AI</button>
+    <button data-page="vidyatadka" onclick="go('vidyatadka')"><span>🎬</span> VidyaTadka</button>
+    <button data-page="quoteHistory" onclick="go('quoteHistory')"><span>📜</span> Quote History</button>
+    <button data-page="studyPlanner" onclick="go('studyPlanner')"><span>📅</span> AI Study Planner</button>
+    <button data-page="voiceTutor" onclick="go('voiceTutor')"><span>🎙️</span> AI Voice Tutor</button>
+    <button data-page="analytics" onclick="go('analytics')"><span>📊</span> Streak &amp; Analytics</button>
+    <button data-page="tasks" onclick="go('tasks')"><span>✓</span> Tasks &amp; Goals</button>
+    <button data-page="notes" onclick="go('notes')"><span>▤</span> Smart Notes</button>
+    <button data-page="pdf" onclick="go('pdf')"><span>📁</span> PDF Library</button>
+    <button data-page="quiz" onclick="go('quiz')"><span>🎯</span> AI Quiz &amp; Exam</button>
+    <button data-page="flashcards" onclick="go('flashcards')"><span>▣</span> Flashcards</button>
+    <button data-page="timetable" onclick="go('timetable')"><span>▦</span> Timetable</button>
+    <button data-page="exams" onclick="go('exams')"><span>◷</span> Exam Planner</button>
+    <button data-page="focus" onclick="go('focus')"><span>◉</span> Focus Studio</button>
+    <div class="nav-label">CREATIVE LAB</div>
+    <button data-page="animation" onclick="go('animation')"><span>✦</span> Animation Studio</button>
+    <button data-page="tools" onclick="go('tools')"><span>⌘</span> Student Tools</button>
+    <button data-page="settings" onclick="go('settings')"><span>⚙</span> Settings &amp; Backup</button>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main" id="mainContainer">
+  <header class="topbar" id="mainTopbar">
+    <div>
+      <h1 id="pageTitle">Dashboard</h1>
+      <p id="todayText">Loading Date &amp; Time...</p>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-btn-stack">
+        <button class="theme-btn" onclick="toggleTheme()" id="themeToggleBtn">🌙 Dark</button>
+        <button class="theme-btn home-pill-btn" onclick="go('dashboard')" id="backToHomeBtn" style="display:none;" title="Back">← Back</button>
+      </div>
+      <div class="status" id="aiStatus">● AI Active ⚡</div>
+    </div>
+  </header>
+
+  <!-- 1. DASHBOARD -->
+  <section class="page active" id="dashboard">
+    <div class="grid">
+      <div class="card hero">
+        <h2>Think Bigger. Learn Smarter.</h2>
+        <div class="hero-actions-grid">
+          <button class="hero-action-btn primary-full" onclick="go('ai')"><span>✧</span> Ask Taqviro AI</button>
+          <button class="hero-action-btn" onclick="go('pdf')"><span>📖</span> Books &amp;<br>Notes <span>📝</span></button>
+          <button class="hero-action-btn" onclick="go('studyPlanner')"><span>📅</span> AI Study<br>Planner</button>
+          <button class="hero-action-btn" onclick="go('quiz')"><span>🎯</span> Quiz</button>
+          <button class="hero-action-btn vidyatadka-btn" onclick="go('vidyatadka')"><span>🎬</span> VidyaTadka</button>
+        </div>
+      </div>
+
+      <div class="card stat clickable-card" onclick="go('tasks')" title="Open Tasks & Goals">
+        <small>Total Tasks</small>
+        <strong id="statTasks">0</strong>
+        <small>All goals</small>
+      </div>
+      <div class="card stat clickable-card" onclick="go('pdf')" title="Open PDF Library">
+        <small>PDF Documents</small>
+        <strong id="statPdfs">0</strong>
+        <small>Study library</small>
+      </div>
+      <div class="card stat clickable-card" onclick="go('notes')" title="Open Smart Notes">
+        <small>Smart Notes</small>
+        <strong id="statNotes">0</strong>
+        <small>Knowledge bank</small>
+      </div>
+      <div class="card stat clickable-card" onclick="go('flashcards')" title="Open Flashcards Studio">
+        <small>Study Cards</small>
+        <strong id="statCards">0</strong>
+        <small>Revision deck</small>
+      </div>
+
+      <div class="card streak-card clickable-card" onclick="go('analytics')" title="Open Streak & Analytics">
+        <div class="streak-label">Study Streak</div>
+        <div class="streak-value-row">
+          <strong id="statStreak">23 Days</strong>
+          <span style="font-size: 28px;">🔥</span>
+        </div>
+        <div class="streak-sub">Keep it burning 🔥</div>
+      </div>
+
+      <div class="card full">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+          <h3 style="margin:0;">Daily Motivation</h3>
+          <span style="font-size:11px; font-weight:800; color:var(--accent2);" id="quoteLangBadge">🌐 हिन्दी</span>
+        </div>
+        <p id="quote" style="line-height: 1.55; font-style: italic; font-size: 15px; color: var(--text);">“ज्ञान में किया गया निवेश हमेशा सबसे अच्छा प्रतिफल देता है।”</p>
+        <small id="quoteAuthor" style="display:block; margin-top:6px; color:var(--muted); font-weight:700;">— Benjamin Franklin</small>
+        <div class="quote-actions-row">
+          <button class="quote-pill-btn" id="newQuoteBtn" onclick="newQuote()">New Quote</button>
+          <button class="quote-pill-btn lang-btn" id="langChangeBtn" onclick="openLanguageModal()">🌐 Language</button>
+          <button class="quote-pill-btn preview-btn" onclick="openQuoteHistory()">📜 Preview Quote</button>
+        </div>
+      </div>
+
+      <div class="card full clickable-card" onclick="go('tasks')" title="Manage Today's Tasks">
+        <h3>Today's Priority</h3>
+        <div id="dashboardTasks" class="muted">No pending tasks.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1B. QUOTE HISTORY & PREVIEW PAGE -->
+  <section class="page" id="quoteHistory">
+    <div class="grid">
+      <div class="card full">
+        <div style="margin-bottom:12px;">
+          <h3 style="margin:0;">📜 Previous Knowledge Quotes (Preview)</h3>
+          <small class="muted">जो Quotes पहले आ चुके हैं वे सभी यहाँ सुरक्षित हैं।</small>
+        </div>
+        <div id="quoteHistoryList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. VIDYATADKA KNOWLEDGE & SOCIAL LEARNING VIDEO HUB -->
+  <section class="page" id="vidyatadka">
+    <div class="vidya-banner">
+      <h2>🎬 VidyaTadka — Knowledge &amp; Learning Hub</h2>
+      <p>यहाँ Knowledge Videos से लेकर Coding, Polytechnic और सभी उपयोगी Educational Videos मिलेंगे, जिन्हें देखकर हर कोई कुछ नया सीख सकता है।</p>
+    </div>
+
+    <div class="grid">
+      <div class="card full">
+        <h3>➕ Publish / Add Video to VidyaTadka</h3>
+        <input class="field" id="vidTitle" placeholder="Video Title (e.g. Polytechnic Physics Easy Tricks)">
+        <div class="row">
+          <select class="field" id="vidCategory">
+            <option value="Knowledge">🧠 General Knowledge</option>
+            <option value="Polytechnic & Study">📚 Polytechnic &amp; Study</option>
+            <option value="Coding & Tech">💻 Coding &amp; Tech</option>
+            <option value="Motivation & Skills">🚀 Motivation &amp; Skills</option>
+          </select>
+          <input class="field" id="vidUrl" placeholder="Video Link (YouTube / Reels / Drive URL)">
+        </div>
+        <textarea class="field" id="vidDesc" placeholder="Video के बारे में संक्षिप्त जानकारी लिखें ताकि लोग आसानी से सीख सकें..."></textarea>
+        <button class="btn" onclick="addVidyaVideo()" style="margin-top:8px;">🎬 Post Video on VidyaTadka</button>
+      </div>
+
+      <div class="card full">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+          <h3 style="margin:0;">📺 VidyaTadka Learning Feed</h3>
+          <input class="field" id="vidSearch" placeholder="Search videos..." oninput="renderVidyaVideos()" style="max-width:260px; margin:0;">
+        </div>
+        <div id="vidyaVideoList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. TAQVIRO VYROX MULTI-VERSION AI HUB -->
+  <section class="page" id="ai">
+    <header class="header-ai">
+      <div class="header-top-flex">
+        <div class="header-left-info">
+          <div class="tagline">Your Personal Command Center</div>
+          <div class="heading">STUDENT AI ASSISTANT</div>
+          <div class="date-ai" id="aiDate">Loading...</div>
+        </div>
+
+        <div class="header-right-stack">
+          <button class="theme-btn-mini" onclick="toggleTheme()" id="themeToggleBtnAi" title="Switch Theme">🌙 Dark</button>
+          <button class="theme-btn-mini home-mini" onclick="go('dashboard')" title="Back">← Back</button>
+          <button class="settings-layers-btn" onclick="go('settings')" title="Settings">
+            <svg class="layers-icon" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M46 56 L78 70 Q84 73 78 76 L50 89 Q46 91 42 89 L14 76 Q8 73 14 70 Z" fill="#20a4b5"/>
+              <path d="M46 35 L78 49 Q84 52 78 55 L50 68 Q46 70 42 68 L14 55 Q8 52 14 49 Z" fill="#4be1d6"/>
+              <path d="M46 14 L78 28 Q84 31 78 34 L50 47 Q46 49 42 47 L14 34 Q8 31 14 28 Z" fill="#7ef2e6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="brand-bar">
+        <div>
+          <span class="brand-title">
+            Taqviro 
+            <span class="version-pill" id="headerVersionBadge" onclick="openVyroxModal()" title="Click to switch Vyrox Version">
+              VYROX 1.0 ▾
+            </span>
+          </span>
+        </div>
+        <button class="clear-btn" id="headerActionBtn" onclick="clearChat()">🧹 Clear chat</button>
+      </div>
+    </header>
+
+    <!-- VYROX 1.0 - CHAT MODE -->
+    <div class="ai-mode-panel active" id="mode1_0">
+      <div class="chat-panel">
+        <div class="messages" id="chatBox">
+          <div class="msg-row ai">
+            <div class="msg-content">
+              <div class="cyan-dot"></div>
+              <div class="text-wrapper">
+                <div class="text" id="welcomeAiMessage">नमस्ते! मैं Taqviro AI हूँ। आज आपकी पढ़ाई या प्रोजेक्ट में क्या मदद करूँ?</div>
+                <div class="msg-actions">
+                  <span title="Copy" onclick="copyText(this)">📄</span>
+                  <span title="Like" onclick="showToast('Feedback Saved 👍')">👍</span>
+                  <span title="Dislike" onclick="showToast('Feedback Saved 👎')">👎</span>
+                  <span title="Listen" onclick="speakText(document.getElementById('welcomeAiMessage').innerText)">🔊</span>
+                  <span title="Share" onclick="shareText(this)">🔗</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="suggestions-row">
+          <button class="suggestion-chip" onclick="quickPrompt('आज का स्टडी प्लान बनाओ')">📅 Study Plan</button>
+          <button class="suggestion-chip" onclick="quickPrompt('Polytechnic important questions')">⚡ Polytechnic Q&amp;A</button>
+          <button class="suggestion-chip" onclick="quickPrompt('Motivation quote do')">💡 Motivation</button>
+        </div>
+
+        <div class="input-area">
+          <button class="circle-btn" onclick="document.getElementById('chatInput').focus()">＋</button>
+          <input id="chatInput" type="text" placeholder="Taqviro Chat Ask..." onkeydown="if(event.key==='Enter') sendChat()">
+          <button class="mic-btn" onclick="toggleVoice()" id="micBtn" title="Real-Time Voice Chat">🎙️</button>
+          <button class="circle-btn" onclick="handleSearchOrVoice()" id="sendBtn" title="Send or Live Voice Talk">🗣️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VYROX 1.1 - IMAGE GENERATION MODE -->
+    <div class="ai-mode-panel" id="mode1_1">
+      <div class="chat-panel">
+        <div class="image-gen-box">
+          <p class="muted" style="font-weight: 700;">🎨 AI Image Generation Studio (VYROX 1.1)</p>
+          <div class="image-preview-container" id="imagePreviewBox">
+            <span class="muted">इमेज यहाँ दिखाई देगी। नीचे प्रॉम्प्ट दर्ज करें और Generate दबाएं।</span>
+          </div>
+          <div class="row">
+            <input class="field" id="imgPromptInput" placeholder="Describe your image (e.g., futuristic student desk)..." onkeydown="if(event.key==='Enter') generateVyroxImage()">
+            <button class="btn" onclick="generateVyroxImage()" style="white-space: nowrap;">Generate 🎨</button>
+          </div>
+          <div class="actions-btn" style="justify-content: flex-end;">
+            <button class="btn secondary" id="downloadImgBtn" style="display:none;" onclick="downloadGeneratedImage()">⬇️ Download Image</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VYROX 1.2 - CODING MODE -->
+    <div class="ai-mode-panel" id="mode1_2">
+      <div class="chat-panel">
+        <div class="coding-box">
+          <div class="row">
+            <input class="field" id="codePromptInput" placeholder="Ask AI Code (e.g., HTML/JS calculator)..." onkeydown="if(event.key==='Enter') generateVyroxCode()">
+            <button class="btn" onclick="generateVyroxCode()">⚡ Generate Code</button>
+          </div>
+          <div class="code-editor-area">
+            <div class="code-pane">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <label>Code Editor (HTML/CSS/JS)</label>
+                <div>
+                  <button class="btn secondary small" onclick="copyVyroxCode()">📋 Copy</button>
+                  <button class="btn small" onclick="runVyroxCode()">▶ Run Live</button>
+                </div>
+              </div>
+              <textarea class="code-textarea" id="codeEditorOutput" placeholder="// Generated code will appear here..."></textarea>
+            </div>
+            <div class="code-pane">
+              <label>Live Secure Sandbox Preview</label>
+              <iframe class="preview-iframe" id="codePreviewSandbox" sandbox="allow-scripts"></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. AI SMART STUDY PLANNER SCHEDULER -->
+  <section class="page" id="studyPlanner">
+    <div class="grid">
+      <div class="card full">
+        <h3>📅 AI Smart Study Planner &amp; Scheduler</h3>
+        <p class="muted">अपने विषय, उपलब्ध घंटे और परीक्षा के दिन दर्ज करें। Taqviro AI आपके लिए ऑटोमैटिक कस्टमाइज्ड स्टडी शेड्यूल बनाएगा।</p>
+        <div class="row" style="margin-top: 10px;">
+          <input class="field" id="plannerSubjects" placeholder="Subjects (e.g., Physics, Maths, Programming)">
+          <input class="field" id="plannerHours" type="number" placeholder="Study Hours Per Day (e.g. 4)" min="1" max="14">
+          <input class="field" id="plannerDays" type="number" placeholder="Target Days (e.g. 30)" min="1" max="365">
+        </div>
+        <button class="btn" onclick="generateAiStudyPlan()" style="margin-top: 10px;">⚡ Generate AI Study Schedule</button>
+      </div>
+
+      <div class="card full">
+        <h3>Generated Study Plan Output</h3>
+        <div id="studyPlanOutputContainer" class="item" style="min-height: 150px; white-space: pre-wrap; font-weight: 600;">अभी कोई प्लान जनरेट नहीं हुआ है। ऊपर फॉर्म भरकर जनरेट करें।</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. AI VOICE TUTOR MODULE -->
+  <section class="page" id="voiceTutor">
+    <div class="grid">
+      <div class="card full">
+        <h3>🎙️ Taqviro AI Voice Tutor</h3>
+        <p class="muted">माइक्रोफोन बटन दबाएं और बोलकर सवाल पूछें। Taqviro AI आपको बोलकर उत्तर देगा।</p>
+        <div class="voice-studio-box">
+          <div class="mic-ring" onclick="startSpeechRecognition()" title="Click to Speak">🎙️</div>
+          <p id="voiceStatusLabel" style="font-weight: 800; font-size: 18px; color: var(--accent);">बोलने के लिए माइक पर क्लिक करें...</p>
+          <div class="field" id="spokenTranscriptBox" style="min-height: 60px; display:flex; align-items:center; justify-content:center; text-align:center; font-style:italic;">
+            "आपकी आवाज यहाँ टेक्स्ट में दिखेगी..."
+          </div>
+          <div class="item" style="width: 100%; text-align: left; margin-top: 10px;">
+            <strong>Taqviro Voice Response:</strong>
+            <p id="voiceTutorResponse" style="margin-top: 6px; font-weight: 700; line-height: 1.5;">नमस्ते! मैं आपका वॉइस ट्यूटर हूँ। आप मुझसे पढ़ाई, कोडिंग या परीक्षा से जुड़ा कोई भी सवाल पूछ सकते हैं।</p>
+            <button class="btn small" onclick="repeatVoiceResponse()" style="margin-top: 10px;">🔊 Replay Voice</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. STUDY STREAK HEATMAP & ANALYTICS -->
+  <section class="page" id="analytics">
+    <div class="grid">
+      <div class="card half">
+        <h3>🔥 Study Streak Heatmap</h3>
+        <p class="muted">पिछले 28 दिनों की आपकी पढ़ाई और फोकस कंसिस्टेंसी ग्रिड।</p>
+        <div class="heatmap-grid" id="heatmapGridContainer"></div>
+      </div>
+      <div class="card half">
+        <h3>📊 Weekly Productivity Analytics</h3>
+        <p class="muted">सोमवार से रविवार तक प्रतिदिन पढ़ाई के घंटे (Focus Hours)।</p>
+        <div class="analytics-bar-container" id="analyticsBarContainer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. TASKS -->
+  <section class="page" id="tasks">
+    <div class="grid">
+      <div class="card full">
+        <h3>Tasks &amp; Goals Manager</h3>
+        <input class="field" id="taskName" placeholder="Task का नाम लिखें...">
+        <div class="row">
+          <input class="field" type="date" id="taskDate">
+          <select class="field" id="taskPriority"><option>Normal</option><option>High</option><option>Urgent</option></select>
+        </div>
+        <button class="btn" onclick="addTask()" style="margin-top:8px;">＋ Add Task</button>
+        <div id="taskList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. NOTES -->
+  <section class="page" id="notes">
+    <div class="grid">
+      <div class="card full">
+        <h3>Smart Notes</h3>
+        <input class="field" id="noteTitle" placeholder="Note title">
+        <textarea class="field" id="noteBody" placeholder="अपना नोट यहाँ लिखें..."></textarea>
+        <div class="actions-btn">
+          <button class="btn" onclick="addNote()">Save Note</button>
+          <input class="field" id="noteSearch" placeholder="Search notes..." oninput="renderNotes()" style="max-width:300px; margin:0;">
+        </div>
+        <div id="noteList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. PDF NOTES LIBRARY & SMART READER -->
+  <section class="page" id="pdf">
+    <div class="grid">
+      <div class="card full">
+        <h3>📁 PDF Notes Library &amp; Smart Reader</h3>
+        <p class="muted" style="margin-bottom: 12px;">अपनी स्टडी पीडीएफ अपलोड करें और ऐप के अंदर ही स्मार्ट रीडर से पढ़ाई करें।</p>
+        <div class="row">
+          <input class="field" id="pdfTitleInput" placeholder="PDF Document Title (e.g. Physics Chapter 1)">
+          <label class="btn" style="display:flex; align-items:center; justify-content:center; cursor:pointer; margin:6px 0;">
+            📂 Choose PDF File <input type="file" id="pdfFileInput" accept="application/pdf,.pdf" hidden onchange="handlePdfUpload(event)">
+          </label>
+        </div>
+        <div id="pdfList" style="margin-top: 15px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. AI QUIZ & EXAM SIMULATOR -->
+  <section class="page" id="quiz">
+    <div class="grid">
+      <div class="card full">
+        <h3>🎯 AI Quiz &amp; Exam Simulator</h3>
+        <div id="quizSetupContainer">
+          <p class="muted" style="margin-bottom: 12px;">विषय या टॉपिक दर्ज करें, Taqviro AI आपके लिए तुरंत बहुविकल्पीय प्रश्न (MCQs) तैयार करेगा।</p>
+          <input class="field" id="quizTopicInput" placeholder="Enter Topic (e.g., Physics, JavaScript, Polytechnic Mathematics)..." onkeydown="if(event.key==='Enter') generateAiQuiz()">
+          <button class="btn" onclick="generateAiQuiz()" style="margin-top: 8px;">⚡ Generate AI Quiz</button>
+        </div>
+
+        <div id="quizActiveContainer" style="display:none; margin-top: 15px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px;">
+            <strong id="quizProgressText" style="color:var(--accent2);">Question 1 of 5</strong>
+            <span id="quizScoreBadge" class="status">Score: 0</span>
+          </div>
+          <div id="quizQuestionBox" style="font-size: 18px; font-weight: 800; margin-bottom: 15px;"></div>
+          <div id="quizOptionsBox"></div>
+          <button class="btn" id="quizNextBtn" onclick="nextQuizQuestion()" style="margin-top: 15px; display:none;">Next Question →</button>
+        </div>
+
+        <div id="quizResultContainer" style="display:none; text-align:center; padding: 30px;">
+          <h2>🎉 Quiz Completed!</h2>
+          <strong id="quizFinalScore" style="font-size: 36px; color:var(--accent); display:block; margin: 15px 0;">Score: 4/5</strong>
+          <p class="muted" id="quizPerformanceMsg">शानदार प्रदर्शन!</p>
+          <button class="btn" onclick="resetQuiz()" style="margin-top: 20px;">🔄 Take Another Quiz</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. AI FLASHCARD GENERATOR FROM PDF & REVISION DECK -->
+  <section class="page" id="flashcards">
+    <div class="grid">
+      <div class="card full">
+        <h3>🤖 Automated AI Flashcard Generator from PDF</h3>
+        <p class="muted">अपनी सेव की गई किसी भी पीडीएफ को चुनें या सीधे टॉपिक से Taqviro AI द्वारा स्टडी फ्लैशकार्ड्स तैयार करवाएं।</p>
+        <div class="row" style="margin-top: 10px;">
+          <select class="field" id="flashcardPdfSelect">
+            <option value="">-- Select Saved PDF --</option>
+          </select>
+          <button class="btn" onclick="generateFlashcardsFromPdf()">⚡ Generate Flashcards</button>
+        </div>
+      </div>
+
+      <div class="card half">
+        <h3>Create Manual Flashcard</h3>
+        <input class="field" id="fcQuestion" placeholder="Question">
+        <textarea class="field" id="fcAnswer" placeholder="Answer"></textarea>
+        <button class="btn" onclick="addFlashcard()">＋ Add Card</button>
+      </div>
+
+      <div class="card half">
+        <h3>Revision Mode</h3>
+        <div class="flash" id="flashDisplay">Add or generate a card to begin</div>
+        <div class="actions-btn">
+          <button class="btn secondary" onclick="previousCard()">← Previous</button>
+          <button class="btn" onclick="flipCard()">Show / Flip</button>
+          <button class="btn secondary" onclick="nextCard()">Next →</button>
+        </div>
+        <p class="muted" id="flashCount" style="margin-top:10px;"></p>
+      </div>
+
+      <div class="card full">
+        <h3>All Flashcards Deck</h3>
+        <div id="flashList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. TIMETABLE -->
+  <section class="page" id="timetable">
+    <div class="grid">
+      <div class="card full">
+        <h3>Weekly Timetable</h3>
+        <div class="row">
+          <select class="field" id="ttDay"><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option><option>Sunday</option></select>
+          <input class="field" id="ttTime" type="time">
+          <input class="field" id="ttSubject" placeholder="Subject / Activity">
+        </div>
+        <button class="btn" onclick="addTimetable()" style="margin-top:8px;">＋ Add Schedule</button>
+        <div id="ttList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. EXAMS -->
+  <section class="page" id="exams">
+    <div class="grid">
+      <div class="card full">
+        <h3>Exam Planner &amp; Countdown</h3>
+        <input class="field" id="examName" placeholder="Exam name">
+        <input class="field" type="date" id="examDate">
+        <textarea class="field" id="examSyllabus" placeholder="Syllabus / Important Topics"></textarea>
+        <button class="btn" onclick="addExam()">Save Exam</button>
+        <div id="examList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14. FOCUS -->
+  <section class="page" id="focus">
+    <div class="grid">
+      <div class="card half">
+        <h3>Focus Studio (Pomodoro)</h3>
+        <div class="timer" id="timer">25:00</div>
+        <div class="row">
+          <button class="btn" onclick="startTimer()">Start</button>
+          <button class="btn secondary" onclick="pauseTimer()">Pause</button>
+          <button class="btn secondary" onclick="resetTimer()">Reset</button>
+        </div>
+      </div>
+      <div class="card half">
+        <h3>Focus Goal</h3>
+        <input class="field" id="focusGoal" placeholder="आज का focus goal लिखें...">
+        <button class="btn" onclick="saveFocusGoal()">Save Goal</button>
+        <p id="focusGoalText" class="muted" style="margin-top:15px;"></p>
+        <div class="progress"><span id="focusProgress"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15. ANIMATION -->
+  <section class="page" id="animation">
+    <div class="grid">
+      <div class="card full">
+        <h3>✦ Animation Studio</h3>
+        <input class="field" id="animText" placeholder="Text या emoji लिखें (जैसे: 🚀)">
+        <div class="row">
+          <input class="field" type="color" id="animColor" value="#20b7c5" style="height:48px;">
+          <input class="field" type="number" id="animSize" value="32" min="12" max="120">
+          <select class="field" id="animEffect"><option value="float">Floating</option><option value="pulse">Pulse</option><option value="spin">Spin</option><option value="none">None</option></select>
+        </div>
+        <div class="actions-btn">
+          <button class="btn" onclick="addObject()">＋ Add Object</button>
+          <button class="btn secondary" onclick="saveScene()">Save Scene</button>
+          <button class="btn danger" onclick="clearScene()">Clear</button>
+        </div>
+        <div class="stage" id="stage"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16. TOOLS -->
+  <section class="page" id="tools">
+    <div class="grid">
+      <div class="card half">
+        <h3>Calculator</h3>
+        <input class="field" id="calcInput" placeholder="(25*4)+10">
+        <button class="btn" onclick="calculate()">Calculate</button>
+        <p id="calcResult" style="margin-top:10px; font-weight:800;"></p>
+      </div>
+      <div class="card half">
+        <h3>CGPA to Percentage</h3>
+        <input class="field" id="cgpaInput" type="number" step="0.1" placeholder="Enter CGPA (e.g. 8.5)">
+        <button class="btn" onclick="calcCGPA()">Calculate</button>
+        <p id="cgpaResult" style="margin-top:10px; font-weight:800;"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17. SETTINGS -->
+  <section class="page" id="settings">
+    <div class="grid">
+      <div class="card half">
+        <h3>Firebase Firestore (`abhis-61379`)</h3>
+        <p class="muted" id="firebaseStatusText">Status: Checking Connection...</p>
+      </div>
+      <div class="card half">
+        <h3>Theme Mode</h3>
+        <button class="btn" onclick="toggleTheme()">Switch Light/Dark</button>
+      </div>
+      <div class="card full">
+        <h3>🔑 Custom AI API Key (Optional)</h3>
+        <p class="muted">Taqviro AI बिना किसी API Key के भी मुफ़्त काम करता है। यदि आपके पास अपनी OpenRouter या OpenAI API Key है, तो यहाँ जोड़ सकते हैं:</p>
+        <div class="row">
+          <input class="field" id="customApiKeyInput" type="password" placeholder="sk-or-v1-... (Leave blank for built-in Free AI)">
+          <button class="btn" onclick="saveCustomApiKey()" style="max-width: 180px;">Save API Key</button>
+        </div>
+      </div>
+      <div class="card full">
+        <h3>My Brain Memory</h3>
+        <textarea class="field" id="brainInput" placeholder="Taqviro AI के लिए अपनी जानकारी लिखें (जैसे: मैं पॉलिटेक्निक कंप्यूटर साइंस का छात्र हूँ)..."></textarea>
+        <button class="btn" onclick="saveBrain()">Save My Brain</button>
+      </div>
+      <div class="card full">
+        <h3>Data Backup &amp; Restore</h3>
+        <div class="actions-btn">
+          <button class="btn" onclick="exportBackup()">Export Backup JSON</button>
+          <label class="btn secondary">Restore JSON<input type="file" accept=".json" hidden onchange="importBackup(event)"></label>
+          <button class="btn danger" onclick="clearAllData()">Delete All Data</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="appFooter">ABHI AI TITANIUM × Taqviro VYROX Ultimate Edition Pro v10.0</footer>
+</main>
+</div>
+
+<!-- INDIAN LANGUAGES SELECTOR MODAL -->
+<div class="vyrox-modal-overlay" id="langModalOverlay" onclick="closeLanguageModal(event)">
+  <div class="vyrox-modal-card" onclick="event.stopPropagation()">
+    <div class="vyrox-modal-header">
+      <h3>🌐 Select Indian Language</h3>
+      <button class="vyrox-close-btn" onclick="closeLanguageModal()">✕</button>
+    </div>
+    <p class="muted" style="margin-bottom:12px;">भारत की भाषा चुनें — Knowledge Motivation उसी भाषा में दिखेगा:</p>
+    <div class="lang-grid" id="indianLangGrid"></div>
+  </div>
+</div>
+
+<!-- SMART PDF READER MODAL -->
+<div class="pdf-reader-modal" id="pdfReaderModal">
+  <div class="pdf-modal-header">
+    <strong id="pdfReaderTitle" style="font-size:16px;">Reading PDF</strong>
+    <div class="row" style="gap:10px; align-items:center; flex:0;">
+      <button class="btn secondary small" onclick="prevPdfPage()">◀ Prev</button>
+      <span id="pdfPageInfo" style="font-size:13px; font-weight:800;">Page 1 / 1</span>
+      <button class="btn secondary small" onclick="nextPdfPage()">Next ▶</button>
+      <button class="btn danger small" onclick="closePdfReader()">✕ Close</button>
+    </div>
+  </div>
+  <div class="pdf-modal-body">
+    <div class="pdf-canvas-container">
+      <canvas id="pdfCanvas"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- VYROX VERSION SELECTOR MODAL -->
+<div class="vyrox-modal-overlay" id="vyroxModalOverlay" onclick="closeVyroxModal(event)">
+  <div class="vyrox-modal-card" onclick="event.stopPropagation()">
+    <div class="vyrox-modal-header">
+      <h3>Select VYROX Mode</h3>
+      <button class="vyrox-close-btn" onclick="closeVyroxModal()">✕</button>
+    </div>
+    <div class="vyrox-options-list">
+      <div class="vyrox-option-item" id="opt-1-0" onclick="switchVyroxVersion('1.0')">
+        <div class="vyrox-opt-left">
+          <span class="vyrox-opt-icon">💬</span>
+          <div class="vyrox-opt-info">
+            <strong>VYROX 1.0 – CHAT</strong>
+            <small>AI Chat &amp; Assistant</small>
+          </div>
+        </div>
+        <span class="vyrox-check">✓</span>
+      </div>
+      <div class="vyrox-option-item" id="opt-1-1" onclick="switchVyroxVersion('1.1')">
+        <div class="vyrox-opt-left">
+          <span class="vyrox-opt-icon">🎨</span>
+          <div class="vyrox-opt-info">
+            <strong>VYROX 1.1 – IMAGE GEN</strong>
+            <small>AI Image creation studio</small>
+          </div>
+        </div>
+        <span class="vyrox-check">✓</span>
+      </div>
+      <div class="vyrox-option-item" id="opt-1-2" onclick="switchVyroxVersion('1.2')">
+        <div class="vyrox-opt-left">
+          <span class="vyrox-opt-icon">💻</span>
+          <div class="vyrox-opt-info">
+            <strong>VYROX 1.2 – CODING</strong>
+            <small>HTML/JS editor &amp; sandbox</small>
+          </div>
+        </div>
+        <span class="vyrox-check">✓</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REAL-TIME LIVE VOICE CONVERSATION OVERLAY -->
+<div class="voice-overlay" id="voiceOverlay" onclick="stopLiveVoiceConversation()">
+  <div class="ai-container" id="ai-ui">
+    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+    <div class="core" id="voiceCoreIcon">🎙️</div>
+  </div>
+  <p id="overlayText" style="margin-top: 28px; font-size: 1.35rem; color: #fff; font-weight: 800; text-align: center;">बोलिए...</p>
+  <p id="overlaySubText" style="margin-top: 10px; font-size: 0.95rem; color: #7ef2e6; font-weight: 700; text-align: center; max-width: 85%;">
+    Taqviro Live Voice Active • बंद करने के लिए कहीं भी टैप करें
+  </p>
+</div>
+
+<!-- MOBILE BOTTOM NAVIGATION -->
+<nav class="bottom-nav" id="mobileNav">
+  <button class="nav-item active" data-nav="dashboard" onclick="go('dashboard')"><span>⌂</span> Home</button>
+  <button class="nav-item" data-nav="ai" onclick="go('ai')"><span>✦</span> AI</button>
+  <button class="nav-item" data-nav="vidyatadka" onclick="go('vidyatadka')"><span>🎬</span> VidyaTadka</button>
+  <button class="nav-item" data-nav="tasks" onclick="go('tasks')"><span>✓</span> Tasks</button>
+  <button class="nav-item" data-nav="settings" onclick="go('settings')"><span>⚙</span> More</button>
+</nav>
+
+<!-- FIREBASE SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/13.2.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAnSWrFOu556NYlc75wGvSlau7YkZq4P-U",
+    authDomain: "abhis-61379.firebaseapp.com",
+    projectId: "abhis-61379",
+    storageBucket: "abhis-61379.firebasestorage.app",
+    messagingSenderId: "298261636140",
+    appId: "1:298261636140:web:f301a0e2351958d3539d89"
+  };
+
+  try {
+    const app = initializeApp(firebaseConfig);
+    window.firebaseDb = getFirestore(app);
+    window.firebaseCollection = collection;
+    window.firebaseAddDoc = addDoc;
+    
+    getDocs(collection(window.firebaseDb, "Chatchase")).then(() => {
+      document.getElementById("aiStatus").textContent = "● AI + DB Ready ☁️";
+      document.getElementById("firebaseStatusText").textContent = "Status: Fully Connected & Synced ✅";
+    }).catch(() => {
+      document.getElementById("aiStatus").textContent = "● AI Ready ⚡";
+      document.getElementById("firebaseStatusText").textContent = "Status: Local Sync Active (Offline DB Notice) ⚠️";
+    });
+  } catch(e) {
+    document.getElementById("aiStatus").textContent = "● AI Ready ⚡";
+    document.getElementById("firebaseStatusText").textContent = "Status: Local Storage Active";
+  }
+</script>
+
+<!-- ==========================================================
+     PART 1, 2 & 3 COMBINED SCRIPT: UI + CONFIG + AI ENGINE
+     ========================================================== -->
+<script>
+/* 1. CONFIG & API KEY MODULE */
+const ABHI_AI_CONFIG = {
+  API_KEY:"",
+  API_URL: "https://abhi-ai.onrender.com",
+  OPENROUTER_URL: "https://openrouter.ai/api/v1/chat/completions",
+  FREE_AI_URL: "https://text.pollinations.ai/openai",
+  MODEL: "openrouter/free",
+  TEMPERATURE: 0.5,
+  MAX_HISTORY: 14
+};
+
+/* 2. CORE STATE & DEFAULT DATA */
+const DEFAULT_DATA = {
+  tasks: [], notes: [], pdfs: [], quizzesTaken: 0, timetable: [], exams: [], flashcards: [],
+  quoteLang: "Hindi",
+  seenQuotes: ["An investment in knowledge always pays the best interest."],
+  quoteHistory: [
+    {
+      quote: "An investment in knowledge always pays the best interest.",
+      author: "Benjamin Franklin",
+      lang: "English",
+      time: "Initial Quote"
+    }
+  ],
+  vidyaVideos: [
+    {
+      id: "vt_welcome",
+      title: "Welcome to VidyaTadka — Knowledge & Learning Community",
+      category: "Knowledge",
+      url: "",
+      desc: "यहाँ आपको रोज़ाना नई-नई ज्ञानवर्धक (Knowledge) और Educational वीडियोज़ मिलेंगी जिन्हें देखकर आप कुछ नया सीख सकते हैं। ऊपर फॉर्म से अपनी वीडियो जोड़ें!",
+      date: "Featured"
+    }
+  ],
+  streakDays: 23,
+  streakData: [2, 4, 3, 5, 0, 4, 6, 3, 2, 5, 4, 6, 7, 3, 4, 5, 2, 4, 6, 5, 3, 4, 5, 6, 4, 5, 3, 5],
+  weeklyHours: [3.5, 4.0, 5.2, 3.8, 6.0, 4.5, 5.0],
+  brain: "", chat: [], focusGoal: "", scene: [], theme: "light",
+  activeVyroxVersion: "1.0", cachedResponses: {}
+};
+
+let data = loadData();
+let timerSeconds = 25 * 60, timerTotal = 25 * 60, timerInterval = null;
+let flashIndex = 0, flashFlipped = false;
+let currentImageUrl = "";
+
+let activePdfDoc = null, currentPdfPageNum = 1, totalPdfPages = 0, currentPdfBase64Data = "";
+let currentQuizQuestions = [], currentQuizIndex = 0, currentQuizScore = 0;
+
+function $(id) { return document.getElementById(id); }
+
+function showToast(message) {
+  const container = $("toastContainer");
+  if (!container) return;
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.textContent = message;
+  container.appendChild(toast);
+  setTimeout(() => { toast.remove(); }, 3000);
+}
+
+function loadData() {
+  try { return { ...structuredClone(DEFAULT_DATA), ...JSON.parse(localStorage.getItem("abhiTitaniumUltimateProData") || "{}") }; }
+  catch (e) { return structuredClone(DEFAULT_DATA); }
+}
+
+function saveData() {
+  localStorage.setItem("abhiTitaniumUltimateProData", JSON.stringify(data));
+  updateDashboard();
+}
+
+function escapeHTML(str) {
+  return String(str ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+function dataUrlToUint8Array(dataUrl) {
+  if (!dataUrl || typeof dataUrl !== "string") throw new Error("Empty PDF data");
+  const base64Marker = ";base64,";
+  const base64Index = dataUrl.indexOf(base64Marker);
+  const rawBase64 = base64Index !== -1 ? dataUrl.substring(base64Index + base64Marker.length) : dataUrl;
+  const binaryString = window.atob(rawBase64.replace(/\s/g, ""));
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+  for (let i = 0; i < len; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+  return bytes;
+}
+
+/* ==========================================================
+   3. UNIVERSAL MULTI-ENGINE AI CALLER (NEVER FAILS)
+   ========================================================== */
+async function callTaqviroAI(messages, temperature = 0.7) {
+  const cleanMessages = messages.map(m => ({
+    role: m.role === "assistant" || m.role === "system" ? m.role : "user",
+    content: String(m.content || "")
+  }));
+
+  // Engine 1: If user provided an OpenRouter/OpenAI key OR custom proxy
+  if (ABHI_AI_CONFIG.API_KEY && ABHI_AI_CONFIG.API_KEY.trim() !== "") {
+    try {
+      const targetUrl = ABHI_AI_CONFIG.API_KEY.startsWith("sk-or-")
+        ? ABHI_AI_CONFIG.OPENROUTER_URL
+        : ABHI_AI_CONFIG.API_URL;
+      const res1 = await fetch(targetUrl, {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + ABHI_AI_CONFIG.API_KEY.trim(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: ABHI_AI_CONFIG.MODEL,
+          messages: cleanMessages,
+          temperature
+        })
+      });
+      if (res1.ok) {
+        const json1 = await res1.json();
+        const reply1 = json1?.choices?.[0]?.message?.content;
+        if (reply1 && reply1.trim()) return reply1.trim();
+      }
+    } catch (e) {
+      console.warn("Custom Key / Render Proxy skipped, switching to Free Cloud AI...");
+    }
+  }
+
+  // Engine 2: Try Render Backend Proxy (with fast 6s timeout so user doesn't wait if asleep)
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 6000);
+    const resProxy = await fetch(ABHI_AI_CONFIG.API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: ABHI_AI_CONFIG.MODEL,
+        messages: cleanMessages,
+        temperature
+      }),
+      signal: controller.signal
+    });
+    clearTimeout(timer);
+    if (resProxy.ok) {
+      const jsonProxy = await resProxy.json();
+      const replyProxy = jsonProxy?.choices?.[0]?.message?.content;
+      if (replyProxy && replyProxy.trim()) return replyProxy.trim();
+    }
+  } catch (e) {
+    // Move immediately to Engine 3
+  }
+
+  // Engine 3: Zero-Key Free Cloud AI (Pollinations OpenAI Compatible Endpoint)
+  try {
+    const resFree = await fetch(ABHI_AI_CONFIG.FREE_AI_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "openai",
+        messages: cleanMessages,
+        temperature,
+        seed: Math.floor(Math.random() * 100000)
+      })
+    });
+    if (resFree.ok) {
+      const contentType = resFree.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const jsonFree = await resFree.json();
+        const replyFree = jsonFree?.choices?.[0]?.message?.content || jsonFree?.content;
+        if (replyFree && replyFree.trim()) return replyFree.trim();
+      } else {
+        const textFree = await resFree.text();
+        if (textFree && textFree.trim()) return textFree.trim();
+      }
+    }
+  } catch (e) {
+    console.warn("Pollinations POST fallback:", e);
+  }
+
+  // Engine 4: Simple GET Text AI Fallback
+  try {
+    const lastUserMsg = cleanMessages[cleanMessages.length - 1]?.content || "Hello";
+    const sysMsg = cleanMessages.find(m => m.role === "system")?.content || "You are Taqviro AI Assistant.";
+    const url = `https://text.pollinations.ai/${encodeURIComponent(sysMsg + "\n\nUser: " + lastUserMsg)}?model=openai`;
+    const resGet = await fetch(url);
+    if (resGet.ok) {
+      const txt = await resGet.text();
+      if (txt && txt.trim()) return txt.trim();
+    }
+  } catch (e) {
+    console.warn("GET AI fallback failed:", e);
+  }
+
+  // Engine 5: Smart Local Offline Assistant (Guarantees 0% Error even if offline)
+  const lastPrompt = (cleanMessages[cleanMessages.length - 1]?.content || "").toLowerCase();
+  if (lastPrompt.includes("study plan") || lastPrompt.includes("स्टडी प्लान")) {
+    return "📅 **आपका स्मार्ट दैनिक स्टडी प्लान:**\n1. **सुबह (2 घंटे):** सबसे कठिन विषय (जैसे: Mathematics / Physics) के कॉन्सेप्ट्स और फॉर्मूले पढ़ें।\n2. **दोपहर (1.5 घंटे):** कोडिंग या प्रैक्टिकल विषय का अभ्यास करें।\n3. **शाम (1.5 घंटे):** पिछले वर्षों के प्रश्न-पत्र (PYQs) और मॉक टेस्ट हल करें।\n4. **रात (30 मिनट):** दिन भर पढ़े गए टॉपिक्स का फ्लैशकार्ड्स से रिवीजन करें।";
+  }
+  if (lastPrompt.includes("polytechnic")) {
+    return "⚡ **Polytechnic Important Exam Tips:**\n• Applied Mathematics: Integration, Matrices और Differential Equations का रोज़ अभ्यास करें।\n• Physics & Chemistry: SI Units, Laws, और Numericals पर विशेष ध्यान दें।\n• Engineering Drawing / Coding: साफ डायग्राम और सिंटैक्स की प्रैक्टिस करें।";
+  }
+  return "नमस्ते! मैं **Taqviro AI** हूँ। आप मुझसे किसी भी विषय के नोट्स, स्टडी प्लान, कोडिंग या परीक्षा की तैयारी से जुड़े सवाल पूछ सकते हैं। बताइए, आज किस टॉपिक को समझना चाहेंगे?";
+}
+
+window.saveCustomApiKey = function() {
+  const key = $("customApiKeyInput").value.trim();
+  ABHI_AI_CONFIG.API_KEY = key;
+  localStorage.setItem("abhiCustomApiKey", key);
+  showToast(key ? "Custom API Key Saved! 🔑" : "Switched to Built-in Free Cloud AI ⚡");
+};
+
+/* ==========================================================
+   4. UI NAVIGATION & WORKSPACE MODULES
+   ========================================================== */
+window.openVyroxModal = function() { $("vyroxModalOverlay").classList.add("active"); };
+window.closeVyroxModal = function(e) {
+  if (!e || e.target === $("vyroxModalOverlay") || e.target.classList.contains("vyrox-close-btn")) {
+    $("vyroxModalOverlay").classList.remove("active");
+  }
+};
+
+window.switchVyroxVersion = function(ver) {
+  data.activeVyroxVersion = ver;
+  saveData();
+  closeVyroxModal();
+
+  ["1.0", "1.1", "1.2"].forEach(v => {
+    const el = $("opt-" + v.replace(".", "-"));
+    if (el) el.classList.toggle("selected", v === ver);
+  });
+
+  $("headerVersionBadge").textContent = "VYROX " + ver + " ▾";
+  document.querySelectorAll(".ai-mode-panel").forEach(panel => panel.classList.remove("active"));
+
+  if (ver === "1.0") {
+    $("mode1_0").classList.add("active");
+    $("headerActionBtn").style.display = "flex";
+  } else if (ver === "1.1") {
+    $("mode1_1").classList.add("active");
+    $("headerActionBtn").style.display = "none";
+  } else if (ver === "1.2") {
+    $("mode1_2").classList.add("active");
+    $("headerActionBtn").style.display = "none";
+  }
+};
+
+function applyTheme() {
+  if (data.theme === "dark") {
+    document.body.classList.add("dark-mode");
+    $("themeToggleBtn").textContent = "☀️ Light";
+    $("themeToggleBtnAi").textContent = "☀️ Light";
+    $("metaThemeColor").setAttribute("content", "#080b16");
+  } else {
+    document.body.classList.remove("dark-mode");
+    $("themeToggleBtn").textContent = "🌙 Dark";
+    $("themeToggleBtnAi").textContent = "🌙 Dark";
+    $("metaThemeColor").setAttribute("content", "#d9f4f2");
+  }
+}
+
+window.toggleTheme = function() {
+  data.theme = data.theme === "dark" ? "light" : "dark";
+  applyTheme();
+  saveData();
+  showToast("Theme changed to " + data.theme);
+};
+
+window.go = function(page) {
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll("[data-page]").forEach(b => b.classList.remove("active"));
+  if ($(page)) $(page).classList.add("active");
+  document.querySelectorAll(`[data-page="${page}"]`).forEach(b => b.classList.add("active"));
+
+  document.querySelectorAll("#mobileNav .nav-item").forEach(b => b.classList.remove("active"));
+  const mobileBtn = document.querySelector(`#mobileNav .nav-item[data-nav="${page}"]`);
+  if (mobileBtn) mobileBtn.classList.add("active");
+
+  const names = {
+    dashboard: "Dashboard", ai: "Taqviro AI Hub", vidyatadka: "VidyaTadka Studio",
+    quoteHistory: "Previous Quotes", studyPlanner: "AI Study Planner",
+    voiceTutor: "AI Voice Tutor", analytics: "Streak & Analytics", tasks: "Tasks & Goals",
+    notes: "Smart Notes", pdf: "PDF Library", quiz: "AI Quiz & Exam", flashcards: "Flashcards Studio",
+    timetable: "Timetable", exams: "Exam Planner", focus: "Focus Studio",
+    animation: "Animation Studio", tools: "Student Tools", settings: "Settings & Backup"
+  };
+  $("pageTitle").textContent = names[page] || page;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const backBtn = $("backToHomeBtn");
+  if (backBtn) {
+    backBtn.style.display = (page === "dashboard") ? "none" : "inline-flex";
+  }
+
+  if (page === "ai") {
+    $("mainTopbar").style.display = "none";
+    $("appFooter").style.display = "none";
+    $("mainContainer").classList.add("ai-mode");
+  } else {
+    $("mainTopbar").style.display = "flex";
+    $("appFooter").style.display = "block";
+    $("mainContainer").classList.remove("ai-mode");
+  }
+};
+
+function updateLiveDateTime() {
+  const now = new Date();
+  const datePart = now.toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const timePart = now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+  $("todayText").textContent = `${datePart} || Time:- ${timePart}`;
+  $("aiDate").textContent = datePart;
+}
+updateLiveDateTime();
+setInterval(updateLiveDateTime, 30000);
+
+function updateDashboard() {
+  $("statTasks").textContent = data.tasks.length;
+  $("statPdfs").textContent = (data.pdfs || []).length;
+  $("statNotes").textContent = (data.notes || []).length;
+  $("statCards").textContent = data.flashcards.length;
+
+  const streakVal = data.streakDays || 23;
+  $("statStreak").textContent = streakVal + " Days";
+
+  const pending = data.tasks.filter(t => !t.done).slice(0, 5);
+  $("dashboardTasks").innerHTML = pending.length
+    ? pending.map(t => `<div class="item"><strong>${escapeHTML(t.name)}</strong><small>${escapeHTML(t.date || "No due date")} · ${escapeHTML(t.priority || "Normal")}</small></div>`).join("")
+    : "No pending tasks.";
+
+  renderHeatmap();
+  renderAnalyticsBars();
+  updatePdfSelectDropdown();
+  if (typeof updateLanguageBadge === 'function') updateLanguageBadge();
+}
+
+function renderHeatmap() {
+  const container = $("heatmapGridContainer");
+  if (!container) return;
+  const arr = data.streakData || [];
+  container.innerHTML = arr.map((val, idx) => {
+    let lvl = "";
+    if (val >= 5) lvl = "level-3";
+    else if (val >= 3) lvl = "level-2";
+    else if (val >= 1) lvl = "level-1";
+    return `<div class="heatmap-cell ${lvl}" title="Day ${idx+1}: ${val} hrs">D${idx+1}<br><span>${val}h</span></div>`;
+  }).join("");
+}
+
+function renderAnalyticsBars() {
+  const container = $("analyticsBarContainer");
+  if (!container) return;
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const hours = data.weeklyHours || [3, 4, 5, 3, 6, 4, 5];
+  const maxH = Math.max(...hours, 7);
+
+  container.innerHTML = hours.map((h, idx) => {
+    const pct = Math.round((h / maxH) * 100);
+    return `
+      <div class="analytics-bar-col">
+        <span class="analytics-bar-label">${h}h</span>
+        <div class="analytics-bar" style="height: ${pct}%;"></div>
+        <span class="analytics-bar-label">${days[idx]}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function updatePdfSelectDropdown() {
+  const select = $("flashcardPdfSelect");
+  if (!select) return;
+  const pdfs = data.pdfs || [];
+  select.innerHTML = `<option value="">-- Select Saved PDF --</option>` + pdfs.map(p => `<option value="${p.id}">${escapeHTML(p.title)}</option>`).join("");
+}
+
+window.openQuoteHistory = function() {
+  if (typeof renderQuoteHistory === 'function') renderQuoteHistory();
+  go("quoteHistory");
+};
+
+window.openLanguageModal = function() {
+  if (typeof renderLanguageOptions === 'function') renderLanguageOptions();
+  $("langModalOverlay").classList.add("active");
+};
+
+window.closeLanguageModal = function(e) {
+  if (!e || e.target === $("langModalOverlay") || e.target.classList.contains("vyrox-close-btn")) {
+    $("langModalOverlay").classList.remove("active");
+  }
+};
+
+window.addVidyaVideo = function() {
+  const title = $("vidTitle").value.trim();
+  const category = $("vidCategory").value;
+  const url = $("vidUrl").value.trim();
+  const desc = $("vidDesc").value.trim();
+
+  if (!title) { alert("कृपया वीडियो का Title दर्ज करें!"); return; }
+
+  if (!data.vidyaVideos) data.vidyaVideos = [];
+  data.vidyaVideos.unshift({
+    id: uid(), title, category, url,
+    desc: desc || "Knowledge & Educational Video on VidyaTadka.",
+    date: new Date().toLocaleDateString("en-IN")
+  });
+
+  $("vidTitle").value = ""; $("vidUrl").value = ""; $("vidDesc").value = "";
+  saveData();
+  renderVidyaVideos();
+  showToast("🎬 Video published on VidyaTadka!");
+};
+
+window.renderVidyaVideos = function() {
+  const list = $("vidyaVideoList");
+  if (!list) return;
+  const q = ($("vidSearch")?.value || "").toLowerCase();
+  const videos = (data.vidyaVideos || []).filter(v =>
+    (v.title + " " + v.category + " " + v.desc).toLowerCase().includes(q)
+  );
+
+  if (!videos.length) {
+    list.innerHTML = `<p class="muted">कोई वीडियो नहीं मिला। ऊपर फॉर्म से अपना Knowledge Video जोड़ें!</p>`;
+    return;
+  }
+
+  list.innerHTML = videos.map(v => `
+    <div class="item">
+      <span class="vidya-badge">${escapeHTML(v.category)} · ${escapeHTML(v.date || "New")}</span>
+      <strong>🎬 ${escapeHTML(v.title)}</strong>
+      <p style="margin-top:6px; font-size:14px; line-height:1.5;">${escapeHTML(v.desc)}</p>
+      <div class="actions-btn">
+        ${v.url ? `<a href="${escapeHTML(v.url)}" target="_blank" rel="noopener noreferrer" class="btn small" style="text-decoration:none; display:inline-block;">▶ Watch Video</a>` : ""}
+        <button class="btn danger small" onclick="deleteVidyaVideo('${v.id}')">Delete</button>
+      </div>
+    </div>
+  `).join("");
+};
+
+window.deleteVidyaVideo = function(id) {
+  data.vidyaVideos = (data.vidyaVideos || []).filter(v => v.id !== id);
+  saveData();
+  renderVidyaVideos();
+  showToast("Video removed from VidyaTadka.");
+};
+
+window.addTask = () => {
+  const name = $("taskName").value.trim();
+  if (!name) return;
+  data.tasks.unshift({ id: uid(), name, date: $("taskDate").value, priority: $("taskPriority").value, done: false });
+  $("taskName").value = "";
+  saveData(); renderTasks();
+  showToast("Task added successfully!");
+};
+
+function renderTasks() {
+  $("taskList").innerHTML = data.tasks.length
+    ? data.tasks.map(t => `<div class="item"><div class="${t.done ? "task-done" : ""}"><strong>${escapeHTML(t.name)}</strong><small>${escapeHTML(t.date || "-")} · ${escapeHTML(t.priority || "Normal")}</small></div><div class="actions-btn"><button class="btn secondary small" onclick="toggleTask('${t.id}')">${t.done ? "Undo" : "Complete"}</button><button class="btn danger small" onclick="deleteTask('${t.id}')">Delete</button></div></div>`).join("")
+    : "";
+}
+
+window.toggleTask = id => { let t = data.tasks.find(x => x.id === id); if (t) t.done = !t.done; saveData(); renderTasks(); };
+window.deleteTask = id => { data.tasks = data.tasks.filter(x => x.id !== id); saveData(); renderTasks(); showToast("Task deleted."); };
+
+window.addNote = () => {
+  const title = $("noteTitle").value.trim(), body = $("noteBody").value.trim();
+  if (!title && !body) return;
+  data.notes.unshift({ id: uid(), title: title || "Untitled", body, created: new Date().toLocaleString() });
+  $("noteTitle").value = ""; $("noteBody").value = "";
+  saveData(); renderNotes();
+  showToast("Note saved!");
+};
+
+window.renderNotes = () => {
+  const q = ($("noteSearch")?.value || "").toLowerCase();
+  $("noteList").innerHTML = data.notes
+    .filter(n => (n.title + n.body).toLowerCase().includes(q))
+    .map(n => `<div class="item"><strong>${escapeHTML(n.title)}</strong><small>${escapeHTML(n.created)}</small><p style="margin-top:6px;white-space:pre-wrap;">${escapeHTML(n.body)}</p><button class="btn danger small" onclick="deleteNote('${n.id}')">Delete</button></div>`).join("");
+};
+
+window.deleteNote = id => { data.notes = data.notes.filter(n => n.id !== id); saveData(); renderNotes(); showToast("Note deleted."); };
+
+window.handlePdfUpload = function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const title = $("pdfTitleInput").value.trim() || file.name.replace(/\.pdf$/i, "");
+  const reader = new FileReader();
+  reader.onload = function(evt) {
+    try {
+      const dataUrl = evt.target.result;
+      const bytes = dataUrlToUint8Array(dataUrl);
+      const header = String.fromCharCode(bytes[0] || 0, bytes[1] || 0, bytes[2] || 0, bytes[3] || 0);
+      if (!header.includes("%PDF")) {
+        alert("चुनी गई फाइल एक वैध PDF नहीं है। कृपया सही .pdf फाइल अपलोड करें!");
+        $("pdfFileInput").value = "";
+        return;
+      }
+      if (!data.pdfs) data.pdfs = [];
+      data.pdfs.unshift({ id: uid(), title, dataUrl, date: new Date().toLocaleDateString() });
+      $("pdfTitleInput").value = "";
+      $("pdfFileInput").value = "";
+      saveData();
+      renderPdfs();
+      showToast("PDF uploaded and saved successfully! 📁");
+    } catch (err) {
+      alert("PDF प्रोसेस करने में त्रुटि: " + err.message);
+    }
+  };
+  reader.readAsDataURL(file);
+};
+
+window.renderPdfs = function() {
+  const list = $("pdfList");
+  const pdfs = data.pdfs || [];
+  if (!pdfs.length) {
+    list.innerHTML = `<p class="muted">कोई पीडीएफ सेव नहीं है। ऊपर फाइल अपलोड करें।</p>`;
+    return;
+  }
+  list.innerHTML = pdfs.map(p => `
+    <div class="item" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div>
+        <strong>📄 ${escapeHTML(p.title)}</strong>
+        <small>Added on: ${escapeHTML(p.date || "Recent")}</small>
+      </div>
+      <div class="actions-btn" style="margin:0;">
+        <button class="btn small" onclick="openPdfReader('${p.id}')">📖 Read Smartly</button>
+        <button class="btn danger small" onclick="deletePdf('${p.id}')">Delete</button>
+      </div>
+    </div>
+  `).join("");
+};
+
+window.deletePdf = function(id) {
+  data.pdfs = (data.pdfs || []).filter(p => p.id !== id);
+  saveData();
+  renderPdfs();
+  showToast("PDF deleted.");
+};
+
+window.openPdfReader = async function(id) {
+  const pdfObj = (data.pdfs || []).find(p => p.id === id);
+  if (!pdfObj) return;
+  $("pdfReaderTitle").textContent = pdfObj.title;
+  $("pdfReaderModal").classList.add("active");
+  currentPdfBase64Data = pdfObj.dataUrl;
+
+  try {
+    const pdfBytes = dataUrlToUint8Array(currentPdfBase64Data);
+    const loadingTask = pdfjsLib.getDocument({ data: pdfBytes });
+    activePdfDoc = await loadingTask.promise;
+    totalPdfPages = activePdfDoc.numPages;
+    currentPdfPageNum = 1;
+    renderPdfPage(currentPdfPageNum);
+  } catch(err) {
+    closePdfReader();
+    alert("PDF load karne mein error aayi: " + err.message);
+  }
+};
+
+window.renderPdfPage = async function(num) {
+  if (!activePdfDoc) return;
+  const page = await activePdfDoc.getPage(num);
+  const canvas = $("pdfCanvas");
+  const ctx = canvas.getContext('2d');
+  const viewport = page.getViewport({ scale: 1.4 });
+  canvas.height = viewport.height;
+  canvas.width = viewport.width;
+
+  await page.render({ canvasContext: ctx, viewport }).promise;
+  $("pdfPageInfo").textContent = `Page ${num} / ${totalPdfPages}`;
+};
+
+window.prevPdfPage = function() {
+  if (currentPdfPageNum <= 1) return;
+  currentPdfPageNum--;
+  renderPdfPage(currentPdfPageNum);
+};
+
+window.nextPdfPage = function() {
+  if (currentPdfPageNum >= totalPdfPages) return;
+  currentPdfPageNum++;
+  renderPdfPage(currentPdfPageNum);
+};
+
+window.closePdfReader = function() {
+  $("pdfReaderModal").classList.remove("active");
+  activePdfDoc = null;
+};
+
+window.addTimetable = () => {
+  const sub = $("ttSubject").value.trim(); if (!sub) return;
+  data.timetable.push({ id: uid(), day: $("ttDay").value, time: $("ttTime").value || "--:--", subject: sub });
+  $("ttSubject").value = ""; saveData(); renderTimetable(); showToast("Timetable added!");
+};
+function renderTimetable() {
+  $("ttList").innerHTML = data.timetable.map(i => `<div class="item"><strong>${escapeHTML(i.day)} · ${escapeHTML(i.time)}</strong><p>${escapeHTML(i.subject)}</p><button class="btn danger small" onclick="data.timetable=data.timetable.filter(x=>x.id!='${i.id}');saveData();renderTimetable()">Delete</button></div>`).join("");
+}
+
+window.addExam = () => {
+  const name = $("examName").value.trim(); if (!name) return;
+  data.exams.push({ id: uid(), name, date: $("examDate").value, syllabus: $("examSyllabus").value.trim() });
+  $("examName").value = ""; saveData(); renderExams(); showToast("Exam saved!");
+};
+function renderExams() {
+  $("examList").innerHTML = data.exams.map(e => `<div class="item"><strong>${escapeHTML(e.name)}</strong><small>${escapeHTML(e.date)}</small><p>${escapeHTML(e.syllabus)}</p></div>`).join("");
+}
+
+window.addFlashcard = () => {
+  const q = $("fcQuestion").value.trim(), a = $("fcAnswer").value.trim(); if (!q || !a) return;
+  data.flashcards.push({ id: uid(), q, a }); $("fcQuestion").value = ""; $("fcAnswer").value = "";
+  saveData(); renderFlashcards(); showToast("Flashcard added!");
+};
+function renderFlashcards() {
+  if (!data.flashcards.length) {
+    $("flashDisplay").textContent = "Add or generate a card to begin";
+    $("flashCount").textContent = "0 cards";
+    $("flashList").innerHTML = "";
+    return;
+  }
+  if (flashIndex >= data.flashcards.length) flashIndex = 0;
+  const c = data.flashcards[flashIndex];
+  $("flashDisplay").textContent = flashFlipped ? c.a : c.q;
+  $("flashCount").textContent = `Card ${flashIndex + 1} of ${data.flashcards.length}`;
+  $("flashList").innerHTML = data.flashcards.map(x => `<div class="item"><strong>Q: ${escapeHTML(x.q)}</strong><small>A: ${escapeHTML(x.a)}</small></div>`).join("");
+}
+window.flipCard = () => { if(!data.flashcards.length) return; flashFlipped = !flashFlipped; renderFlashcards(); };
+window.nextCard = () => { if(!data.flashcards.length) return; flashIndex = (flashIndex + 1) % data.flashcards.length; flashFlipped = false; renderFlashcards(); };
+window.previousCard = () => { if(!data.flashcards.length) return; flashIndex = (flashIndex - 1 + data.flashcards.length) % data.flashcards.length; flashFlipped = false; renderFlashcards(); };
+
+function updateTimerUI() {
+  const m = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+  const s = String(timerSeconds % 60).padStart(2, "0");
+  $("timer").textContent = `${m}:${s}`;
+  $("focusProgress").style.width = `${((timerTotal - timerSeconds) / timerTotal) * 100}%`;
+}
+window.startTimer = () => {
+  if (timerInterval) return;
+  timerInterval = setInterval(() => {
+    if (timerSeconds > 0) { timerSeconds--; updateTimerUI(); }
+    else { clearInterval(timerInterval); timerInterval = null; showToast("Pomodoro complete! 🎉"); }
+  }, 1000);
+};
+window.pauseTimer = () => { clearInterval(timerInterval); timerInterval = null; };
+window.resetTimer = () => { pauseTimer(); timerSeconds = timerTotal; updateTimerUI(); };
+window.saveFocusGoal = () => { data.focusGoal = $("focusGoal").value.trim(); $("focusGoalText").textContent = data.focusGoal ? "Goal: " + data.focusGoal : ""; saveData(); showToast("Goal saved!"); };
+
+window.calculate = () => {
+  try { $("calcResult").textContent = "Result: " + Function('"use strict";return (' + $("calcInput").value + ')')(); }
+  catch(e) { $("calcResult").textContent = "Invalid Expression"; }
+};
+window.calcCGPA = () => {
+  const cgpa = parseFloat($("cgpaInput").value);
+  if (!isNaN(cgpa)) $("cgpaResult").textContent = `Approx %: ${(cgpa * 9.5).toFixed(2)}%`;
+};
+
+window.addObject = () => {
+  data.scene.push({
+    id: uid(),
+    text: $("animText").value.trim() || "✨",
+    color: $("animColor").value,
+    size: parseInt($("animSize").value) || 32,
+    effect: $("animEffect").value || "float",
+    x: 40 + Math.floor(Math.random() * 180),
+    y: 40 + Math.floor(Math.random() * 140)
+  });
+  renderScene();
+  showToast("Object added!");
+};
+
+function renderScene() {
+  const stg = $("stage");
+  if (!stg) return;
+  stg.innerHTML = data.scene.map(o =>
+    `<div class="canvas-object effect-${escapeHTML(o.effect || 'none')}" style="color:${escapeHTML(o.color)};font-size:${o.size}px;left:${o.x}px;top:${o.y}px;">${escapeHTML(o.text)}</div>`
+  ).join("");
+}
+window.saveScene = () => { saveData(); showToast("Scene saved!"); };
+window.clearScene = () => { data.scene = []; saveData(); renderScene(); showToast("Scene cleared."); };
+
+window.exportBackup = () => {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "abhi-titanium-ultimate-pro-backup.json"; a.click();
+  showToast("Backup exported successfully!");
+};
+window.importBackup = e => {
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try { data = { ...structuredClone(DEFAULT_DATA), ...JSON.parse(ev.target.result) }; saveData(); renderAll(); showToast("Backup restored successfully!"); }
+    catch(err) { alert("Invalid JSON backup file."); }
+  };
+  reader.readAsText(file);
+};
+window.clearAllData = () => {
+  if (confirm("Are you sure you want to delete all local platform data?")) {
+    localStorage.removeItem("abhiTitaniumUltimateProData");
+    data = structuredClone(DEFAULT_DATA);
+    renderAll();
+    showToast("All data cleared.");
+  }
+};
+
+window.saveBrain = () => { data.brain = $("brainInput").value.trim(); saveData(); showToast("Brain memory saved!"); };
+
+/* ==========================================================
+   5. AI ASSISTANT LOGIC MODULE (QUOTES, PLANNER, VOICE, QUIZ, CHAT)
+   ========================================================== */
+const INDIAN_LANGUAGES = [
+  { code: "Hindi", label: "हिन्दी (Hindi)" },
+  { code: "English", label: "English (India)" },
+  { code: "Bhojpuri", label: "भोजपुरी (Bhojpuri)" },
+  { code: "Awadhi", label: "अवधी (Awadhi)" },
+  { code: "Marathi", label: "मराठी (Marathi)" },
+  { code: "Gujarati", label: "ગુજરાતી (Gujarati)" },
+  { code: "Bengali", label: "বাংলা (Bengali)" },
+  { code: "Tamil", label: "தமிழ் (Tamil)" },
+  { code: "Telugu", label: "తెలుగు (Telugu)" },
+  { code: "Kannada", label: "ಕನ್ನಡ (Kannada)" },
+  { code: "Malayalam", label: "മലയാളം (Malayalam)" },
+  { code: "Punjabi", label: "ਪੰਜਾਬੀ (Punjabi)" },
+  { code: "Urdu", label: "اردو (Urdu)" },
+  { code: "Odia", label: "ଓଡ଼ିଆ (Odia)" },
+  { code: "Assamese", label: "অসমীয়া (Assamese)" },
+  { code: "Maithili", label: "मैथिली (Maithili)" },
+  { code: "Sanskrit", label: "संस्कृतम् (Sanskrit)" },
+  { code: "Santali", label: "ᱥᱟᱱᱛᱟᱲᱤ (Santali)" },
+  { code: "Kashmiri", label: "कॉशुर (Kashmiri)" },
+  { code: "Nepali", label: "नेपाली (Nepali)" },
+  { code: "Konkani", label: "कोंकणी (Konkani)" },
+  { code: "Sindhi", label: "सिन्धी (Sindhi)" },
+  { code: "Dogri", label: "डोगरी (Dogri)" },
+  { code: "Manipuri", label: "মৈতৈলোন্ (Manipuri)" },
+  { code: "Bodo", label: "बड़ो (Bodo)" }
+];
+
+const FALLBACK_QUOTES_BY_LANG = {
+  Hindi: [
+    { quote: "ज्ञान ही वह शक्ति है जिससे दुनिया को बदला जा सकता है।", author: "डॉ. ए.पी.जे. अब्दुल कलाम" },
+    { quote: "शिक्षा सबसे सशक्त हथियार है जिससे आप दुनिया बदल सकते हैं।", author: "नेल्सन मंडेला" },
+    { quote: "हर दिन कुछ नया सीखना ही सफलता की असली कुंजी है।", author: "चाणक्य नीति" }
+  ],
+  English: [
+    { quote: "Live as if you were to die tomorrow. Learn as if you were to live forever.", author: "Mahatma Gandhi" },
+    { quote: "Learning never exhausts the mind.", author: "Leonardo da Vinci" }
+  ]
+};
+
+const KNOWLEDGE_KEYWORDS = [
+  "knowledge", "learn", "learning", "wisdom", "study", "education",
+  "mind", "book", "books", "intellect", "science", "curiosity",
+  "understand", "understanding", "think", "thinking", "skill",
+  "practice", "discipline", "focus", "student", "genius", "truth"
+];
+
+let cachedKnowledgePool = [];
+
+window.renderLanguageOptions = function() {
+  const grid = $("indianLangGrid");
+  if (!grid) return;
+  const currentLang = data.quoteLang || "Hindi";
+  grid.innerHTML = INDIAN_LANGUAGES.map(l => `
+    <button class="lang-opt-btn ${l.code === currentLang ? 'selected' : ''}" onclick="selectQuoteLanguage('${l.code}')">
+      <span>${escapeHTML(l.label)}</span>
+      <span>${l.code === currentLang ? '✓' : ''}</span>
+    </button>
+  `).join("");
+};
+
+window.selectQuoteLanguage = function(langCode) {
+  data.quoteLang = langCode;
+  saveData();
+  updateLanguageBadge();
+  if (typeof closeLanguageModal === 'function') closeLanguageModal();
+  showToast(`Language set to ${langCode} 🌐`);
+  window.newQuote(false);
+};
+
+window.updateLanguageBadge = function() {
+  const badge = $("quoteLangBadge");
+  const langObj = INDIAN_LANGUAGES.find(l => l.code === (data.quoteLang || "Hindi"));
+  if (badge) {
+    badge.textContent = `🌐 ${langObj ? langObj.label.split(" ")[0] : (data.quoteLang || "Hindi")}`;
+  }
+};
+
+window.renderQuoteHistory = function() {
+  const listEl = $("quoteHistoryList");
+  if (!listEl) return;
+
+  if (!Array.isArray(data.quoteHistory)) data.quoteHistory = [];
+  if (!data.quoteHistory.length && Array.isArray(data.seenQuotes) && data.seenQuotes.length) {
+    data.quoteHistory = data.seenQuotes.map(q => ({
+      quote: q,
+      author: "Knowledge Wisdom",
+      lang: "English",
+      time: "Previously Viewed"
+    })).reverse();
+  }
+
+  if (!data.quoteHistory.length) {
+    listEl.innerHTML = `<p class="muted">अभी तक कोई पुराना Quote रिकॉर्ड नहीं है।</p>`;
+    return;
+  }
+
+  listEl.innerHTML = data.quoteHistory.map((item, idx) => `
+    <div class="item">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:6px; flex-wrap:wrap;">
+        <span class="vidya-badge">#${data.quoteHistory.length - idx} · 🌐 ${escapeHTML(item.lang || "Knowledge")} · ${escapeHTML(item.time || "Saved")}</span>
+        <button class="btn secondary small" style="margin:0;" onclick="copyPreviousQuote(${idx})">📋 Copy</button>
+      </div>
+      <p style="font-style:italic; font-weight:700; font-size:15px; line-height:1.5; color:var(--text);">“${escapeHTML(item.quote)}”</p>
+      <small style="display:block; margin-top:6px;">— ${escapeHTML(item.author || "Knowledge Wisdom")}</small>
+    </div>
+  `).join("");
+};
+
+window.copyPreviousQuote = function(idx) {
+  const item = (data.quoteHistory || [])[idx];
+  if (!item) return;
+  navigator.clipboard.writeText(`“${item.quote}” — ${item.author || "Knowledge Wisdom"}`)
+    .then(() => showToast("Quote Copied! 📋"));
+};
+
+window.newQuote = async function(isInitial = false) {
+  const btn = $("newQuoteBtn");
+  const quoteEl = $("quote");
+  const authorEl = $("quoteAuthor");
+  const selectedLang = data.quoteLang || "Hindi";
+
+  if (!data.seenQuotes) data.seenQuotes = [];
+  if (!data.quoteHistory) data.quoteHistory = [];
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = "Loading... ⏳";
+  }
+
+  const isUnique = (text) => {
+    const norm = text.trim().toLowerCase();
+    return !data.seenQuotes.some(q => q.trim().toLowerCase() === norm);
+  };
+
+  const applyQuote = (text, author, langUsed) => {
+    const cleanText = text.replace(/^[“"]|[”"]$/g, "").trim();
+    const cleanAuthor = author || "Knowledge Wisdom";
+    const nowTime = new Date().toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" }) + ", " + new Date().toLocaleDateString("en-IN");
+
+    data.seenQuotes.push(cleanText);
+    if (data.seenQuotes.length > 300) data.seenQuotes = data.seenQuotes.slice(-300);
+
+    data.quoteHistory.unshift({ quote: cleanText, author: cleanAuthor, lang: langUsed, time: nowTime });
+    if (data.quoteHistory.length > 300) data.quoteHistory = data.quoteHistory.slice(0, 300);
+
+    saveData();
+    if (quoteEl) quoteEl.textContent = `“${cleanText}”`;
+    if (authorEl) authorEl.textContent = `— ${cleanAuthor}`;
+  };
+
+  try {
+    if (selectedLang === "English") {
+      let freshFromPool = cachedKnowledgePool.find(item => isUnique(item.quote));
+      if (!freshFromPool) {
+        const apiRes = await fetch("https://dummyjson.com/quotes?limit=150");
+        if (apiRes.ok) {
+          const apiData = await apiRes.json();
+          const allQuotes = apiData.quotes || [];
+          const knowledgeFiltered = allQuotes.filter(q => {
+            const lower = (q.quote || "").toLowerCase();
+            return KNOWLEDGE_KEYWORDS.some(kw => lower.includes(kw));
+          });
+          cachedKnowledgePool = knowledgeFiltered.sort(() => Math.random() - 0.5);
+          freshFromPool = cachedKnowledgePool.find(item => isUnique(item.quote));
+        }
+      }
+      if (freshFromPool) {
+        applyQuote(freshFromPool.quote, freshFromPool.author, "English");
+        if (!isInitial) showToast("🧠 Fresh English Knowledge Quote!");
+        return;
+      }
+    }
+
+    const recentSeen = data.seenQuotes.slice(-10).join(" | ");
+    const raw = await callTaqviroAI([{
+      role: "user",
+      content: `Write 1 powerful, short, unique motivational quote strictly about KNOWLEDGE, LEARNING, STUDY, or WISDOM written natively in ${selectedLang} language. Do NOT repeat: [${recentSeen}]. Return strictly valid JSON without markdown: {"quote": "...", "author": "..."}`
+    }], 0.9);
+
+    const match = raw.match(/\{[\s\S]*\}/);
+    if (match) {
+      const parsed = JSON.parse(match[0]);
+      if (parsed.quote) {
+        applyQuote(parsed.quote, parsed.author || "ज्ञान विचार", selectedLang);
+        if (!isInitial) showToast(`🧠 New ${selectedLang} Knowledge Quote!`);
+        return;
+      }
+    }
+    throw new Error("Fallback quote");
+  } catch (err) {
+    const pool = FALLBACK_QUOTES_BY_LANG[selectedLang] || FALLBACK_QUOTES_BY_LANG.Hindi;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    applyQuote(pick.quote, pick.author, selectedLang);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = "New Quote";
+    }
+  }
+};
+
+window.generateAiStudyPlan = async function() {
+  const subjects = $("plannerSubjects").value.trim();
+  const hours = $("plannerHours").value.trim();
+  const days = $("plannerDays").value.trim();
+
+  if (!subjects || !hours || !days) { alert("कृपया सभी फील्ड्स (Subjects, Hours, Days) भरें!"); return; }
+
+  $("studyPlanOutputContainer").textContent = "Taqviro AI आपके लिए स्मार्ट स्टडी शेड्यूल तैयार कर रहा है... ⏳";
+  showToast("AI Study Planner generating schedule... ⏳");
+
+  try {
+    const planText = await callTaqviroAI([{
+      role: "user",
+      content: `Create a structured day-by-day smart study schedule for subjects: "${subjects}" with ${hours} hours daily commitment over ${days} days. Format clearly with headings and bullet points in Hindi or Hinglish.`
+    }], 0.7);
+    $("studyPlanOutputContainer").textContent = planText || "शेड्यूल तैयार करने में विफल।";
+    showToast("Study Schedule Generated Successfully! 📅");
+  } catch(e) {
+    $("studyPlanOutputContainer").textContent = "Error: " + e.message;
+  }
+};
+
+window.generateFlashcardsFromPdf = async function() {
+  const pdfId = $("flashcardPdfSelect").value;
+  let pdfTitle = "General Science & Programming";
+  let extractedText = "";
+
+  if (pdfId) {
+    const pdfObj = (data.pdfs || []).find(p => p.id === pdfId);
+    if (pdfObj) {
+      pdfTitle = pdfObj.title;
+      try {
+        const pdfBytes = dataUrlToUint8Array(pdfObj.dataUrl);
+        const loadingTask = pdfjsLib.getDocument({ data: pdfBytes });
+        const pdfDoc = await loadingTask.promise;
+        for (let i = 1; i <= Math.min(pdfDoc.numPages, 4); i++) {
+          const page = await pdfDoc.getPage(i);
+          const textContent = await page.getTextContent();
+          extractedText += textContent.items.map(item => item.str).join(" ") + "\n";
+        }
+      } catch (pdfErr) {
+        extractedText = "";
+      }
+    }
+  } else {
+    const customTopic = prompt("कोई PDF चुनी नहीं गई है। किस टॉपिक के लिए AI फ्लैशकार्ड्स बनाने हैं?", "Polytechnic Physics & Maths");
+    if (!customTopic) return;
+    pdfTitle = customTopic;
+  }
+
+  showToast("Taqviro AI फ्लैशकार्ड्स तैयार कर रहा है... ⏳");
+
+  try {
+    const cleanText = extractedText.trim();
+    const promptContent = cleanText.length >= 25
+      ? `Generate exactly 4 study flashcards based on this document "${pdfTitle}" content: "${cleanText.slice(0, 2500)}". Return strictly valid JSON array without markdown: [{"q": "Question?", "a": "Answer."}]`
+      : `Generate exactly 4 important study flashcards on the topic titled: "${pdfTitle}" in Hindi/Hinglish. Return strictly valid JSON array without markdown: [{"q": "Question?", "a": "Answer."}]`;
+
+    let text = await callTaqviroAI([{ role: "user", content: promptContent }], 0.5);
+    const m = text.match(/\[[\s\S]*\]/);
+    if (m) text = m[0];
+    const generatedCards = JSON.parse(text);
+
+    if (!Array.isArray(generatedCards) || !generatedCards.length) throw new Error("Fallback cards");
+
+    generatedCards.forEach(card => {
+      data.flashcards.unshift({ id: uid(), q: card.q || card.question, a: card.a || card.answer });
+    });
+
+    flashIndex = 0;
+    flashFlipped = false;
+    saveData();
+    renderFlashcards();
+    showToast(`Successfully generated ${generatedCards.length} AI Flashcards! ▣`);
+  } catch(e) {
+    const fallbackCards = [
+      { q: `${pdfTitle} का मुख्य सिद्धांत क्या है?`, a: "मूलभूत अवधारणाओं को समझना और नियमित प्रैक्टिकल अभ्यास करना।" },
+      { q: `${pdfTitle} में परीक्षा के लिए सबसे महत्वपूर्ण क्या है?`, a: "मुख्य सूत्र (Formulas), परिभाषाएं और पिछले वर्षों के प्रश्न।" }
+    ];
+    fallbackCards.forEach(card => data.flashcards.unshift({ id: uid(), q: card.q, a: card.a }));
+    flashIndex = 0; flashFlipped = false; saveData(); renderFlashcards();
+    showToast("AI Flashcards Added! ▣");
+  }
+};
+
+window.startSpeechRecognition = function() {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { alert("आपका ब्राउज़र स्पीच रिकग्निशन सपोर्ट नहीं करता है। कृपया Chrome का उपयोग करें।"); return; }
+
+  const recognition = new SpeechRecognition();
+  recognition.lang = 'hi-IN';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
+  $("voiceStatusLabel").textContent = "सुन रहा हूँ... बोलिए 🎙️";
+  showToast("Listening... Speak now!");
+
+  recognition.onresult = async function(event) {
+    const spokenText = event.results[0][0].transcript;
+    $("spokenTranscriptBox").textContent = `"${spokenText}"`;
+    $("voiceStatusLabel").textContent = "Taqviro AI सोच रहा है... ⏳";
+
+    try {
+      const answer = await callTaqviroAI([
+        { role: "system", content: "You are Taqviro AI Voice Tutor. Answer concisely in 2-4 sentences in Hindi or Hinglish." },
+        { role: "user", content: spokenText }
+      ], 0.7);
+      $("voiceTutorResponse").textContent = answer;
+      $("voiceStatusLabel").textContent = "बोलने के लिए माइक पर क्लिक करें...";
+      speakVoiceTutor(answer);
+    } catch(e) {
+      $("voiceStatusLabel").textContent = "त्रुटि आई। पुनः प्रयास करें।";
+      $("voiceTutorResponse").textContent = "Error: " + e.message;
+    }
+  };
+
+  recognition.onerror = function() {
+    $("voiceStatusLabel").textContent = "आवाज़ पहचान में नहीं आई। फिर से माइक दबाएं।";
+  };
+
+  recognition.start();
+};
+
+window.speakVoiceTutor = function(text) {
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text.replace(/<[^>]*>?/gm, "").replace(/[*#_`]/g, ""));
+    utterance.lang = "hi-IN";
+    window.speechSynthesis.speak(utterance);
+  }
+};
+
+window.repeatVoiceResponse = function() {
+  speakVoiceTutor($("voiceTutorResponse").innerText);
+};
+
+window.generateAiQuiz = async function() {
+  const topic = $("quizTopicInput").value.trim();
+  if (!topic) { alert("कृपया क्विज़ का टॉपिक दर्ज करें!"); return; }
+  
+  showToast("Taqviro AI क्विज़ तैयार कर रहा है... ⏳");
+  try {
+    let text = await callTaqviroAI([{
+      role: "user",
+      content: `Generate exactly 5 multiple choice questions on the topic: "${topic}" in Hindi or English. Return strictly valid JSON array without markdown: [{"question": "...", "options": ["Option A", "Option B", "Option C", "Option D"], "answer": 0}]`
+    }], 0.5);
+
+    const m = text.match(/\[[\s\S]*\]/);
+    if (m) text = m[0];
+    const parsedQuiz = JSON.parse(text);
+    if (!Array.isArray(parsedQuiz) || !parsedQuiz.length) throw new Error("Invalid format");
+    currentQuizQuestions = parsedQuiz;
+  } catch(e) {
+    currentQuizQuestions = [
+      { question: `${topic} के अध्ययन में सबसे महत्वपूर्ण आधार क्या है?`, options: ["बेसिक कॉन्सेप्ट्स और लॉजिक", "केवल रटना", "बिना अभ्यास के पढ़ना", "इनमें से कोई नहीं"], answer: 0 },
+      { question: `${topic} में महारत हासिल करने का सबसे अच्छा तरीका क्या है?`, options: ["नियमित प्रैक्टिस और रिवीजन", "साल में एक बार पढ़ना", "नोट्स न बनाना", "परीक्षा के दिन पढ़ना"], answer: 0 },
+      { question: `यदि ${topic} का कोई प्रश्न कठिन लगे तो क्या करना चाहिए?`, options: ["उसे छोटे भागों (Steps) में बाँटकर हल करें", "छोड़ देना चाहिए", "अंदाज़ा लगाना चाहिए", "किताब बंद कर दें"], answer: 0 },
+      { question: `मॉक टेस्ट और क्विज़ देने से क्या लाभ होता है?`, options: ["समय प्रबंधन और आत्मविश्वास बढ़ता है", "समय खराब होता है", "कोई लाभ नहीं", "तनाव बढ़ता है"], answer: 0 },
+      { question: `सफलता के लिए प्रतिदिन किस नियम का पालन करना चाहिए?`, options: ["कंसिस्टेंसी (निरंतरता) और फोकस", "अनियमित दिनचर्या", "बिना लक्ष्य के पढ़ाई", "सोशल मीडिया का अधिक प्रयोग"], answer: 0 }
+    ];
+  }
+
+  currentQuizIndex = 0;
+  currentQuizScore = 0;
+  $("quizSetupContainer").style.display = "none";
+  $("quizActiveContainer").style.display = "block";
+  renderQuizQuestion();
+  showToast("Quiz ready! All the best! 🎯");
+};
+
+window.renderQuizQuestion = function() {
+  if (currentQuizIndex >= currentQuizQuestions.length) {
+    $("quizActiveContainer").style.display = "none";
+    $("quizResultContainer").style.display = "block";
+    $("quizFinalScore").textContent = `Score: ${currentQuizScore}/${currentQuizQuestions.length}`;
+    $("quizPerformanceMsg").textContent = currentQuizScore >= 4 ? "शानदार प्रदर्शन! 🌟" : "अच्छा प्रयास! और अभ्यास करें 💪";
+    data.quizzesTaken = (data.quizzesTaken || 0) + 1;
+    saveData();
+    return;
+  }
+
+  const q = currentQuizQuestions[currentQuizIndex];
+  $("quizProgressText").textContent = `Question ${currentQuizIndex + 1} of ${currentQuizQuestions.length}`;
+  $("quizScoreBadge").textContent = `Score: ${currentQuizScore}`;
+  $("quizQuestionBox").textContent = q.question;
+  $("quizNextBtn").style.display = "none";
+
+  const optBox = $("quizOptionsBox");
+  optBox.innerHTML = (q.options || []).map((opt, idx) => `
+    <button class="quiz-option" onclick="selectQuizAnswer(this, ${idx}, ${Number(q.answer) || 0})">${escapeHTML(opt)}</button>
+  `).join("");
+};
+
+window.selectQuizAnswer = function(btn, selectedIdx, correctIdx) {
+  const buttons = document.querySelectorAll(".quiz-option");
+  buttons.forEach(b => b.style.pointerEvents = "none");
+
+  if (selectedIdx === correctIdx) {
+    btn.classList.add("correct");
+    currentQuizScore++;
+    showToast("सही उत्तर! 🎉");
+  } else {
+    btn.classList.add("incorrect");
+    if (buttons[correctIdx]) buttons[correctIdx].classList.add("correct");
+    showToast("गलत उत्तर! ❌");
+  }
+  $("quizScoreBadge").textContent = `Score: ${currentQuizScore}`;
+  $("quizNextBtn").style.display = "inline-block";
+};
+
+window.nextQuizQuestion = function() {
+  currentQuizIndex++;
+  renderQuizQuestion();
+};
+
+window.resetQuiz = function() {
+  $("quizResultContainer").style.display = "none";
+  $("quizSetupContainer").style.display = "block";
+  $("quizTopicInput").value = "";
+};
+
+window.generateVyroxImage = async function() {
+  const prompt = $("imgPromptInput").value.trim();
+  if (!prompt) { alert("कृपया इमेज प्रॉम्प्ट दर्ज करें!"); return; }
+  const previewBox = $("imagePreviewBox");
+  previewBox.innerHTML = `<span class="muted">🎨 AI इमेज जनरेट हो रही है... ⏳</span>`;
+  $("downloadImgBtn").style.display = "none";
+  currentImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random()*100000)}`;
+  const img = new Image();
+  img.src = currentImageUrl;
+  img.onload = () => { previewBox.innerHTML = `<img src="${currentImageUrl}" alt="AI Image">`; $("downloadImgBtn").style.display = "inline-flex"; showToast("Image generated successfully!"); };
+  img.onerror = () => { previewBox.innerHTML = `<span style="color:var(--danger);">❌ इमेज लोड करने में समस्या आई। कृपया दूसरा प्रॉम्प्ट लिखें।</span>`; };
+};
+
+window.downloadGeneratedImage = function() {
+  if (!currentImageUrl) return;
+  const a = document.createElement("a"); a.href = currentImageUrl; a.download = "vyrox-image.jpg"; a.target = "_blank"; a.click();
+};
+
+window.generateVyroxCode = async function() {
+  const prompt = $("codePromptInput").value.trim();
+  if (!prompt) return;
+  $("codeEditorOutput").value = "// जनरेट हो रहा है... ⚡";
+  try {
+    let code = await callTaqviroAI([{
+      role: "user",
+      content: "Write a complete, single-file working HTML/CSS/JS code snippet for: " + prompt + ". Return ONLY valid HTML code."
+    }], 0.2);
+    const m = code.match(/```(?:html)?([\s\S]*?)```/i);
+    if (m && m[1]) code = m[1].trim();
+    $("codeEditorOutput").value = code;
+    window.runVyroxCode();
+    showToast("Code generated & loaded in sandbox!");
+  } catch(e) {
+    $("codeEditorOutput").value = "// Error: " + e.message;
+  }
+};
+
+window.copyVyroxCode = () => { navigator.clipboard.writeText($("codeEditorOutput").value).then(() => showToast("Code Copied!")); };
+window.runVyroxCode = () => {
+  const iframe = $("codePreviewSandbox");
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open(); doc.writeln($("codeEditorOutput").value); doc.close();
+};
+
+window.copyText = el => { navigator.clipboard.writeText(el.closest(".text-wrapper").querySelector(".text").innerText).then(() => showToast("Copied!")); };
+window.shareText = el => {
+  const txt = el.closest(".text-wrapper").querySelector(".text").innerText;
+  if (navigator.share) navigator.share({ text: txt }); else { navigator.clipboard.writeText(txt); showToast("Copied to clipboard!"); }
+};
+
+window.renderChatMessages = function() {
+  const chatBox = $("chatBox");
+  if (!chatBox) return;
+  chatBox.innerHTML = "";
+  if (data.chat && data.chat.length) {
+    data.chat.forEach(m => addMessage(m.content, m.role === "user" ? "user" : "ai", m.content.includes("<img ")));
+  }
+};
+
+function addMessage(text, role, isHTML = false) {
+  const chatBox = $("chatBox");
+  if (!chatBox) return;
+  const row = document.createElement("div");
+  row.className = "msg-row " + role;
+  if (role === "system") { row.textContent = text; }
+  else if (role === "ai") {
+    row.innerHTML = `<div class="msg-content"><div class="cyan-dot"></div><div class="text-wrapper"><div class="text">${isHTML ? text : escapeHTML(text).replace(/\*\*(.*?)\*\*/g, "<b>$1</b>")}</div><div class="msg-actions"><span title="Copy" onclick="copyText(this)">📄</span><span title="Like" onclick="showToast('Liked 👍')">👍</span><span title="Listen" onclick="speakText(this.closest('.text-wrapper').querySelector('.text').innerText)">🔊</span><span title="Share" onclick="shareText(this)">🔗</span></div></div></div>`;
+  } else {
+    row.innerHTML = `<div class="bubble">${escapeHTML(text)}</div>`;
+  }
+  chatBox.appendChild(row);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+window.quickPrompt = text => { $("chatInput").value = text; window.sendChat(); };
+
+window.handleSearchOrVoice = function() {
+  const val = $("chatInput").value.trim();
+  if (val) window.sendChat();
+  else window.toggleVoice();
+};
+
+window.sendChat = async function(voicePromptText = null, isLiveVoice = false) {
+  const input = $("chatInput");
+  const prompt = (voicePromptText !== null ? voicePromptText : input.value).trim();
+  if (!prompt) return;
+  if (voicePromptText === null) input.value = "";
+  addMessage(prompt, "user");
+  data.chat.push({ role: "user", content: prompt });
+
+  const loading = document.createElement("div");
+  loading.className = "msg-row ai";
+  loading.innerHTML = `<div class="msg-content"><div class="cyan-dot"></div><div class="text-wrapper"><div class="text">Taqviro सोच रहा है... ⏳</div></div></div>`;
+  $("chatBox").appendChild(loading);
+  $("chatBox").scrollTop = $("chatBox").scrollHeight;
+
+  if (isLiveVoice) {
+    $("overlayText").innerText = "Taqviro सोच रहा है... ⏳";
+    $("voiceCoreIcon").innerText = "⏳";
+  }
+
+  try {
+    const systemPrompt = isLiveVoice
+      ? "You are Taqviro, a friendly real-time voice AI assistant for students. Keep answers concise (2-4 short sentences) in Hindi or Hinglish. Context: " + (data.brain || "Student")
+      : "You are Taqviro, an intelligent student AI assistant created for ABHI AI TITANIUM. Answer clearly and helpfully in Hindi, Hinglish, or English as asked. Context: " + (data.brain || "Student");
+
+    const answer = await callTaqviroAI(
+      [{ role: "system", content: systemPrompt }, ...data.chat.slice(-10)],
+      ABHI_AI_CONFIG.TEMPERATURE
+    );
+
+    loading.remove();
+    addMessage(answer, "ai");
+    data.chat.push({ role: "assistant", content: answer });
+    saveData();
+
+    if (window.firebaseDb && window.firebaseAddDoc) {
+      window.firebaseAddDoc(window.firebaseCollection(window.firebaseDb, "Chatchase"), {
+        prompt, response: answer, timestamp: new Date().toISOString()
+      }).catch(() => {});
+    }
+
+    if (isLiveVoice && isLiveVoiceActive) {
+      speakAndContinueLiveVoice(answer);
+    }
+  } catch(e) {
+    loading.remove();
+    addMessage("Error: " + e.message, "system");
+    if (isLiveVoice && isLiveVoiceActive) {
+      $("overlayText").innerText = "नेटवर्क त्रुटि, फिर से बोलिए...";
+      setTimeout(() => { if (isLiveVoiceActive) listenNextLiveTurn(); }, 1500);
+    }
+  }
+};
+
+window.clearChat = () => {
+  if(confirm("क्या आप पूरी चैट हिस्ट्री साफ़ करना चाहते हैं?")) {
+    data.chat = [];
+    saveData();
+    $("chatBox").innerHTML = "";
+    showToast("Chat cleared.");
+  }
+};
+
+const voiceOverlay = $("voiceOverlay");
+let isLiveVoiceActive = false;
+let activeLiveRecognition = null;
+
+window.toggleVoice = function() {
+  if (isLiveVoiceActive) {
+    stopLiveVoiceConversation();
+    return;
+  }
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) { alert("आपका ब्राउज़र लाइव वॉइस बातचीत सपोर्ट नहीं करता है। कृपया Chrome उपयोग करें।"); return; }
+
+  isLiveVoiceActive = true;
+  $("micBtn")?.classList.add("listening");
+  $("voiceCoreIcon").innerText = "🎙️";
+  voiceOverlay.classList.add("active");
+  $("overlayText").innerText = "बोलिए... मैं सुन रहा हूँ 🎙️";
+  listenNextLiveTurn();
+};
+
+window.stopLiveVoiceConversation = function() {
+  isLiveVoiceActive = false;
+  if (activeLiveRecognition) {
+    try { activeLiveRecognition.abort(); } catch (e) {}
+    activeLiveRecognition = null;
+  }
+  $("micBtn")?.classList.remove("listening");
+  voiceOverlay.classList.remove("active");
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+};
+
+function listenNextLiveTurn() {
+  if (!isLiveVoiceActive) return;
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) return;
+
+  const recognition = new SpeechRecognition();
+  activeLiveRecognition = recognition;
+  recognition.lang = "hi-IN";
+  recognition.interimResults = true;
+  recognition.maxAlternatives = 1;
+
+  let finalTranscript = "";
+
+  recognition.onresult = (event) => {
+    if (!isLiveVoiceActive) return;
+    let interim = "";
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const t = event.results[i][0].transcript;
+      if (event.results[i].isFinal) finalTranscript += t;
+      else interim += t;
+    }
+    const preview = (finalTranscript || interim).trim();
+    if (preview) $("overlayText").innerText = `“${preview}”`;
+  };
+
+  recognition.onerror = (event) => {
+    if (!isLiveVoiceActive) return;
+    if (event.error === "no-speech") {
+      $("overlayText").innerText = "आवाज़ नहीं आई, फिर से बोलिए... 🎙️";
+      setTimeout(() => { if (isLiveVoiceActive) listenNextLiveTurn(); }, 500);
+    }
+  };
+
+  recognition.onend = () => {
+    if (!isLiveVoiceActive) return;
+    const spoken = finalTranscript.trim();
+    if (!spoken) {
+      setTimeout(() => { if (isLiveVoiceActive) listenNextLiveTurn(); }, 350);
+      return;
+    }
+    if (/^(बंद करो|रुक जाओ|stop|exit|bye|close)$/i.test(spoken)) {
+      stopLiveVoiceConversation();
+      showToast("Live Voice Chat बंद कर दिया गया 👋");
+      return;
+    }
+    window.sendChat(spoken, true);
+  };
+
+  try { recognition.start(); } catch (e) {
+    setTimeout(() => { if (isLiveVoiceActive) listenNextLiveTurn(); }, 500);
+  }
+}
+
+function speakAndContinueLiveVoice(text) {
+  if (!isLiveVoiceActive) return;
+  if (!("speechSynthesis" in window)) { listenNextLiveTurn(); return; }
+
+  window.speechSynthesis.cancel();
+  const cleanText = text.replace(/<[^>]*>?/gm, "").replace(/[*#_`]/g, "");
+  const u = new SpeechSynthesisUtterance(cleanText);
+  u.lang = "hi-IN";
+
+  u.onstart = () => {
+    if (!isLiveVoiceActive) return;
+    $("voiceCoreIcon").innerText = "🔊";
+    $("overlayText").innerText = "Taqviro बोल रहा है... 🔊";
+  };
+
+  u.onend = () => { if (isLiveVoiceActive) listenNextLiveTurn(); };
+  u.onerror = () => { if (isLiveVoiceActive) listenNextLiveTurn(); };
+
+  window.speechSynthesis.speak(u);
+}
+
+window.speakText = text => {
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text.replace(/<[^>]*>?/gm, "").replace(/[*#_`]/g, ""));
+    u.lang = "hi-IN";
+    u.onstart = () => {
+      if ($("voiceCoreIcon")) $("voiceCoreIcon").innerText = "🔊";
+      voiceOverlay.classList.add("active");
+      $("overlayText").innerText = "Taqviro बोल रहा है...";
+    };
+    u.onend = () => { if (!isLiveVoiceActive) voiceOverlay.classList.remove("active"); };
+    window.speechSynthesis.speak(u);
+  }
+};
+
+function renderAll() {
+  applyTheme();
+  renderVidyaVideos();
+  if(typeof renderQuoteHistory === 'function') renderQuoteHistory();
+  renderTasks();
+  renderNotes();
+  renderPdfs();
+  renderFlashcards();
+  renderTimetable();
+  renderExams();
+  renderScene();
+  updateDashboard();
+  updateTimerUI();
+  $("brainInput").value = data.brain || "";
+  $("focusGoal").value = data.focusGoal || "";
+  $("focusGoalText").textContent = data.focusGoal ? "Goal: " + data.focusGoal : "";
+  if ($("customApiKeyInput")) $("customApiKeyInput").value = ABHI_AI_CONFIG.API_KEY || "";
+
+  if (data.chat?.length && typeof renderChatMessages === 'function') {
+    renderChatMessages();
+  }
+  switchVyroxVersion(data.activeVyroxVersion || "1.0");
+  if(typeof newQuote === 'function') newQuote(true);
+}
+
+// Auto initialization call
+renderAll();
+go("dashboard");
+</script>
+
+</body>
+</html>
