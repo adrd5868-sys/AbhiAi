@@ -1199,9 +1199,9 @@ footer { color: var(--muted); font-size: 12px; text-align: center; padding: 24px
       </div>
       <div class="card full">
         <h3>🔑 Custom AI API Key (Optional)</h3>
-        <p class="muted">Taqviro AI बिना किसी API Key के भी मुफ़्त काम करता है। यदि आपके पास अपनी OpenRouter या OpenAI API Key है, तो यहाँ जोड़ सकते हैं:</p>
+        <p class="muted">Taqviro AI (`https://abhi-ai-gn9a.vercel.app`) बिना किसी API Key के भी मुफ़्त काम करता है। यदि आपके पास अपनी API Key है, तो यहाँ जोड़ सकते हैं:</p>
         <div class="row">
-          <input class="field" id="customApiKeyInput" type="password" placeholder="sk-or-v1-... (Leave blank for built-in Free AI)">
+          <input class="field" id="customApiKeyInput" type="password" placeholder="Leave blank for built-in abhi-ai-gn9a.vercel.app AI">
           <button class="btn" onclick="saveCustomApiKey()" style="max-width: 180px;">Save API Key</button>
         </div>
       </div>
@@ -1355,12 +1355,12 @@ footer { color: var(--muted); font-size: 12px; text-align: center; padding: 24px
      PART 1, 2 & 3 COMBINED SCRIPT: UI + CONFIG + AI ENGINE
      ========================================================== -->
 <script>
-/* 1. CONFIG & API KEY MODULE */
+/* 1. CONFIG & API KEY MODULE (All URLs Replaced with https://abhi-ai-gn9a.vercel.app) */
 const ABHI_AI_CONFIG = {
-  API_KEY:"",
-  API_URL: "https://abhi-ai.onrender.com",
-  OPENROUTER_URL: "https://openrouter.ai/api/v1/chat/completions",
-  FREE_AI_URL: "https://text.pollinations.ai/openai",
+  API_KEY: localStorage.getItem("abhiCustomApiKey") || "",
+  API_URL: "https://abhi-ai-gn9a.vercel.app",
+  OPENROUTER_URL: "https://abhi-ai-gn9a.vercel.app",
+  FREE_AI_URL: "https://abhi-ai-gn9a.vercel.app",
   MODEL: "openrouter/free",
   TEMPERATURE: 0.5,
   MAX_HISTORY: 14
@@ -1447,7 +1447,7 @@ function dataUrlToUint8Array(dataUrl) {
 }
 
 /* ==========================================================
-   3. UNIVERSAL MULTI-ENGINE AI CALLER (NEVER FAILS)
+   3. UNIVERSAL MULTI-ENGINE AI CALLER (USING abhi-ai-gn9a.vercel.app)
    ========================================================== */
 async function callTaqviroAI(messages, temperature = 0.7) {
   const cleanMessages = messages.map(m => ({
@@ -1455,13 +1455,10 @@ async function callTaqviroAI(messages, temperature = 0.7) {
     content: String(m.content || "")
   }));
 
-  // Engine 1: If user provided an OpenRouter/OpenAI key OR custom proxy
+  // Engine 1: Custom API Key with https://abhi-ai-gn9a.vercel.app
   if (ABHI_AI_CONFIG.API_KEY && ABHI_AI_CONFIG.API_KEY.trim() !== "") {
     try {
-      const targetUrl = ABHI_AI_CONFIG.API_KEY.startsWith("sk-or-")
-        ? ABHI_AI_CONFIG.OPENROUTER_URL
-        : ABHI_AI_CONFIG.API_URL;
-      const res1 = await fetch(targetUrl, {
+      const res1 = await fetch(ABHI_AI_CONFIG.API_URL, {
         method: "POST",
         headers: {
           "Authorization": "Bearer " + ABHI_AI_CONFIG.API_KEY.trim(),
@@ -1475,39 +1472,46 @@ async function callTaqviroAI(messages, temperature = 0.7) {
       });
       if (res1.ok) {
         const json1 = await res1.json();
-        const reply1 = json1?.choices?.[0]?.message?.content;
-        if (reply1 && reply1.trim()) return reply1.trim();
+        const reply1 = json1?.choices?.[0]?.message?.content || json1?.reply || json1?.response || json1?.content;
+        if (reply1 && String(reply1).trim()) return String(reply1).trim();
       }
     } catch (e) {
-      console.warn("Custom Key / Render Proxy skipped, switching to Free Cloud AI...");
+      console.warn("Primary API with key failed, trying direct endpoint...");
     }
   }
 
-  // Engine 2: Try Render Backend Proxy (with fast 6s timeout so user doesn't wait if asleep)
+  // Engine 2: Direct POST to https://abhi-ai-gn9a.vercel.app
   try {
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 6000);
+    const timer = setTimeout(() => controller.abort(), 10000);
     const resProxy = await fetch(ABHI_AI_CONFIG.API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: ABHI_AI_CONFIG.MODEL,
         messages: cleanMessages,
+        prompt: cleanMessages[cleanMessages.length - 1]?.content || "",
         temperature
       }),
       signal: controller.signal
     });
     clearTimeout(timer);
     if (resProxy.ok) {
-      const jsonProxy = await resProxy.json();
-      const replyProxy = jsonProxy?.choices?.[0]?.message?.content;
-      if (replyProxy && replyProxy.trim()) return replyProxy.trim();
+      const contentType = resProxy.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const jsonProxy = await resProxy.json();
+        const replyProxy = jsonProxy?.choices?.[0]?.message?.content || jsonProxy?.reply || jsonProxy?.response || jsonProxy?.content;
+        if (replyProxy && String(replyProxy).trim()) return String(replyProxy).trim();
+      } else {
+        const textProxy = await resProxy.text();
+        if (textProxy && textProxy.trim()) return textProxy.trim();
+      }
     }
   } catch (e) {
-    // Move immediately to Engine 3
+    console.warn("Direct POST fallback:", e);
   }
 
-  // Engine 3: Zero-Key Free Cloud AI (Pollinations OpenAI Compatible Endpoint)
+  // Engine 3: Secondary POST format to https://abhi-ai-gn9a.vercel.app
   try {
     const resFree = await fetch(ABHI_AI_CONFIG.FREE_AI_URL, {
       method: "POST",
@@ -1523,26 +1527,33 @@ async function callTaqviroAI(messages, temperature = 0.7) {
       const contentType = resFree.headers.get("content-type") || "";
       if (contentType.includes("application/json")) {
         const jsonFree = await resFree.json();
-        const replyFree = jsonFree?.choices?.[0]?.message?.content || jsonFree?.content;
-        if (replyFree && replyFree.trim()) return replyFree.trim();
+        const replyFree = jsonFree?.choices?.[0]?.message?.content || jsonFree?.reply || jsonFree?.response || jsonFree?.content;
+        if (replyFree && String(replyFree).trim()) return String(replyFree).trim();
       } else {
         const textFree = await resFree.text();
         if (textFree && textFree.trim()) return textFree.trim();
       }
     }
   } catch (e) {
-    console.warn("Pollinations POST fallback:", e);
+    console.warn("Secondary POST fallback:", e);
   }
 
-  // Engine 4: Simple GET Text AI Fallback
+  // Engine 4: Simple GET Request to https://abhi-ai-gn9a.vercel.app
   try {
     const lastUserMsg = cleanMessages[cleanMessages.length - 1]?.content || "Hello";
     const sysMsg = cleanMessages.find(m => m.role === "system")?.content || "You are Taqviro AI Assistant.";
-    const url = `https://text.pollinations.ai/${encodeURIComponent(sysMsg + "\n\nUser: " + lastUserMsg)}?model=openai`;
+    const url = `${ABHI_AI_CONFIG.API_URL}/?prompt=${encodeURIComponent(sysMsg + "\n\nUser: " + lastUserMsg)}`;
     const resGet = await fetch(url);
     if (resGet.ok) {
-      const txt = await resGet.text();
-      if (txt && txt.trim()) return txt.trim();
+      const contentType = resGet.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        const jsonGet = await resGet.json();
+        const replyGet = jsonGet?.choices?.[0]?.message?.content || jsonGet?.reply || jsonGet?.response || jsonGet?.content;
+        if (replyGet && String(replyGet).trim()) return String(replyGet).trim();
+      } else {
+        const txt = await resGet.text();
+        if (txt && txt.trim()) return txt.trim();
+      }
     }
   } catch (e) {
     console.warn("GET AI fallback failed:", e);
@@ -1563,7 +1574,7 @@ window.saveCustomApiKey = function() {
   const key = $("customApiKeyInput").value.trim();
   ABHI_AI_CONFIG.API_KEY = key;
   localStorage.setItem("abhiCustomApiKey", key);
-  showToast(key ? "Custom API Key Saved! 🔑" : "Switched to Built-in Free Cloud AI ⚡");
+  showToast(key ? "Custom API Key Saved! 🔑" : "Switched to Built-in abhi-ai-gn9a.vercel.app AI ⚡");
 };
 
 /* ==========================================================
@@ -2211,28 +2222,6 @@ window.newQuote = async function(isInitial = false) {
   };
 
   try {
-    if (selectedLang === "English") {
-      let freshFromPool = cachedKnowledgePool.find(item => isUnique(item.quote));
-      if (!freshFromPool) {
-        const apiRes = await fetch("https://dummyjson.com/quotes?limit=150");
-        if (apiRes.ok) {
-          const apiData = await apiRes.json();
-          const allQuotes = apiData.quotes || [];
-          const knowledgeFiltered = allQuotes.filter(q => {
-            const lower = (q.quote || "").toLowerCase();
-            return KNOWLEDGE_KEYWORDS.some(kw => lower.includes(kw));
-          });
-          cachedKnowledgePool = knowledgeFiltered.sort(() => Math.random() - 0.5);
-          freshFromPool = cachedKnowledgePool.find(item => isUnique(item.quote));
-        }
-      }
-      if (freshFromPool) {
-        applyQuote(freshFromPool.quote, freshFromPool.author, "English");
-        if (!isInitial) showToast("🧠 Fresh English Knowledge Quote!");
-        return;
-      }
-    }
-
     const recentSeen = data.seenQuotes.slice(-10).join(" | ");
     const raw = await callTaqviroAI([{
       role: "user",
@@ -2242,7 +2231,7 @@ window.newQuote = async function(isInitial = false) {
     const match = raw.match(/\{[\s\S]*\}/);
     if (match) {
       const parsed = JSON.parse(match[0]);
-      if (parsed.quote) {
+      if (parsed.quote && isUnique(parsed.quote)) {
         applyQuote(parsed.quote, parsed.author || "ज्ञान विचार", selectedLang);
         if (!isInitial) showToast(`🧠 New ${selectedLang} Knowledge Quote!`);
         return;
@@ -2488,7 +2477,7 @@ window.generateVyroxImage = async function() {
   const previewBox = $("imagePreviewBox");
   previewBox.innerHTML = `<span class="muted">🎨 AI इमेज जनरेट हो रही है... ⏳</span>`;
   $("downloadImgBtn").style.display = "none";
-  currentImageUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random()*100000)}`;
+  currentImageUrl = `${ABHI_AI_CONFIG.API_URL}/?prompt=${encodeURIComponent(prompt)}&width=512&height=512&seed=${Math.floor(Math.random()*100000)}`;
   const img = new Image();
   img.src = currentImageUrl;
   img.onload = () => { previewBox.innerHTML = `<img src="${currentImageUrl}" alt="AI Image">`; $("downloadImgBtn").style.display = "inline-flex"; showToast("Image generated successfully!"); };
